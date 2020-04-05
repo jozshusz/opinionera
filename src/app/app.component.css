@@ -1,0 +1,39 @@
+/* layout */
+
+/* header: 30% (10% of it is covered), middle is 60%, footer 10%, main-content 75% */
+
+.background_rows {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#row_header {
+  background: #eafff9;
+  height: 30%;
+}
+
+#row_middle {
+  background: #c5f9fa;
+  height: 60%;
+}
+
+#row_footer {
+  background: #9ff5bf;
+  height: 10%;
+}
+
+.top_content {
+  margin-bottom: 2%;
+  background: white;
+  position: absolute;
+  bottom: 0;
+  height: 80%;
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  left: 5%;
+}
+
+/* layout end */

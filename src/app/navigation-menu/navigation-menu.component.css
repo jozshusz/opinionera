@@ -1,0 +1,19 @@
+/* ripple effect on click and active, hovered styles */
+.nav-item a{
+    color: rgba(255, 255, 255, 0.726);
+}
+
+.nav-item a:focus{
+    color: white;
+}
+
+.nav-item a:hover{
+    color: white;
+    background-color: rgba(255,255,255,0.1);
+}
+
+.active{
+    background-color: rgba(255, 255, 255, 0.315);
+}
+/* login navigation needs to float to right */
+
