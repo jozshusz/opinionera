@@ -9,23 +9,26 @@
 }
 
 #row_header {
-  background: #eafff9;
+  /*background-image: url("../assets/img/background.png");
+  background-size: cover;*/
+  /*background: #eafff9;*/
   height: 30%;
+  background: #29516D;
 }
 
 #row_middle {
-  background: #c5f9fa;
+  background: #123752;
   height: 60%;
 }
 
 #row_footer {
-  background: #9ff5bf;
+  background: #032137;
   height: 10%;
 }
 
 .top_content {
   margin-bottom: 2%;
-  background: white;
+  background: #708EA4;
   position: absolute;
   bottom: 0;
   height: 80%;

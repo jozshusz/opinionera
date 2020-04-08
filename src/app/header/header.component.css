@@ -1,0 +1,15 @@
+.display-1{
+    font-size: 50px;
+    padding: 20px;
+    margin-bottom: 0;
+    color: white;
+}
+
+.text-muted{
+    font-size: 20px;
+    padding: 20px;
+}
+
+.title{
+    text-align: center;
+}
