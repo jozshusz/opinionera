@@ -1,7 +1,5 @@
 /* layout */
 
-/* header: 30% (10% of it is covered), middle is 60%, footer 10%, main-content 75% */
-
 .background_rows {
   display: flex;
   flex-direction: column;
@@ -11,31 +9,18 @@
 #row_header {
   /*background-image: url("../assets/img/background.png");
   background-size: cover;*/
-  /*background: #eafff9;*/
-  height: 30%;
-  background: #29516D;
+  /*background: #eafff9;
+  height: 38%;
+  background-color: #50615B;*/
 }
 
 #row_middle {
-  height: 60%;
+  background-color: white;
+  height: 90%;
 }
 
 #row_footer {
-  background: #032137;
+  background-color: #1A2621;
   height: 10%;
 }
-
-.top_content {
-  margin-bottom: 2%;
-  background: #708EA4;
-  position: absolute;
-  bottom: 0;
-  height: 80%;
-  width: 90%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  left: 5%;
-}
-
 /* layout end */

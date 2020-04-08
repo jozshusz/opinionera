@@ -1,19 +1,30 @@
 <!-- bootstrap navigation menu -->
-<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark" id="main_navbar">
+  <a class="navbar-brand" [routerLink]="['/home']">Opinionera</a>
   <div class="collapse navbar-collapse" id="navbarNav"> <!-- collapsing when the device's width is too small -->
-    <ul class="navbar-nav">
-      <li matRipple class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" [routerLink]="['/home']">Home</a>
-      </li>
-      <li matRipple class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" [routerLink]="['/topics']">Topics</a>
-      </li>
-      <li matRipple class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" [routerLink]="['/rules']">Rules</a>
-      </li>
-      <li matRipple class="nav-item" [routerLinkActive]="['active']" id="login_nav">
-        <a class="nav-link" [routerLink]="['/login']">Login</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse justify-content-between">
+      <ul class="navbar-nav">
+        <li matRipple class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/home']">Kezdőlap</a>
+        </li>
+        <li matRipple class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/topics']">Témák</a>
+        </li>
+        <li matRipple class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/rules']">Szabályok</a>
+        </li>
+      </ul>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Keresés témák között..." aria-label="Search">
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Keresés</button>
+      </form>
+      <ul class="navbar-nav">
+        <li matRipple class="nav-item" [routerLinkActive]="['active']" id="login_nav">
+          <a class="nav-link" [routerLink]="['/login']">Bejelentkezés 
+            <img src="../../assets/img/loginIcon.svg" style="width: 20px;" class="avatar" alt="icon">
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>

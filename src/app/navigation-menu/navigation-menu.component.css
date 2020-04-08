@@ -16,4 +16,8 @@
     background-color: rgba(255, 255, 255, 0.315);
 }
 
-/* login navigation needs to float to right */
+nav{
+    padding: 12px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
