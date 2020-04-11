@@ -1,26 +1,26 @@
 <!-- bootstrap navigation menu -->
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark" id="main_navbar">
-  <a class="navbar-brand" [routerLink]="['/home']">Opinionera</a>
+  <a class="navbar-brand" [routerLink]="[{ outlets: { primary: ['topics'], sidebar: ['topics'] } }]">Opinionera</a>
   <div class="collapse navbar-collapse" id="navbarNav"> <!-- collapsing when the device's width is too small -->
     <div class="collapse navbar-collapse justify-content-between">
       <ul class="navbar-nav">
         <li matRipple class="nav-item" [routerLinkActive]="['active']">
-          <a class="nav-link" [routerLink]="['/home']">Kezdőlap</a>
+          <a class="nav-link" [routerLink]="[{ outlets: { primary: ['topics'], sidebar: ['topics'] } }]">Témák</a>
         </li>
         <li matRipple class="nav-item" [routerLinkActive]="['active']">
-          <a class="nav-link" [routerLink]="['/topics']">Témák</a>
+          <a class="nav-link" [routerLink]="[{ outlets: { primary: ['news'], sidebar: ['news'] } }]">Hírek</a>
         </li>
         <li matRipple class="nav-item" [routerLinkActive]="['active']">
-          <a class="nav-link" [routerLink]="['/rules']">Szabályok</a>
+          <a class="nav-link" [routerLink]="[{ outlets: { primary: ['rules'], sidebar: ['rules'] } }]">Szabályzat</a>
         </li>
       </ul>
       <form class="form-inline">
-        <input class="form-control mr-sm-2" type="search" placeholder="Keresés témák között..." aria-label="Search">
+        <input id="search_input" class="form-control mr-sm-2" type="search" placeholder="Keresés témák között..." aria-label="Search">
         <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Keresés</button>
       </form>
       <ul class="navbar-nav">
         <li matRipple class="nav-item" [routerLinkActive]="['active']" id="login_nav">
-          <a class="nav-link" [routerLink]="['/login']">Bejelentkezés 
+          <a class="nav-link" [routerLink]="[{ outlets: { primary: ['login'], sidebar: ['login'] } }]">Bejelentkezés 
             <img src="../../assets/img/loginIcon.svg" style="width: 20px;" class="avatar" alt="icon">
           </a>
         </li>

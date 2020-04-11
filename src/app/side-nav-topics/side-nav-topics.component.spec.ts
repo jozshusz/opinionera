@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { HomePageComponent } from './home-page.component';
+import { SideNavTopicsComponent } from './side-nav-topics.component';
 
-describe('HomePageComponent', () => {
-  let component: HomePageComponent;
-  let fixture: ComponentFixture<HomePageComponent>;
+describe('SideNavTopicsComponent', () => {
+  let component: SideNavTopicsComponent;
+  let fixture: ComponentFixture<SideNavTopicsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomePageComponent ]
+      declarations: [ SideNavTopicsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomePageComponent);
+    fixture = TestBed.createComponent(SideNavTopicsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

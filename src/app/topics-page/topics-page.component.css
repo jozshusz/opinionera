@@ -1,0 +1,22 @@
+.page_title{
+    padding-top: 2%;
+    text-decoration: underline;
+}
+
+mat-list{
+    box-shadow: 3px 5px 8px #888888;
+    margin-bottom: 4%;
+    background-color: #e6e6e6;
+}
+
+.section{
+    font-size: 26px;
+    color: black;
+}
+
+.topic_container{
+    width: 60%;
+    margin-left: 20%;
+    margin-bottom: 5%;
+   /* background-color: #6E807A;*/
+}

@@ -1,0 +1,33 @@
+.page_title{
+    padding-top: 2%;
+    text-decoration: underline;
+}
+
+.news_container{
+    width: 60%;
+    margin-left: 20%;
+    margin-bottom: 5%;
+   /* background-color: #6E807A;*/
+}
+
+.card-header{
+    font-size: 14px;
+    display: inline-block;
+}
+
+.date{
+    float: right;
+    font-size: 14px;
+}
+
+p{ 
+  text-indent: 3%;
+}
+
+.card-footer{
+    text-align: center;
+}
+
+.card{
+    margin-bottom: 10%;
+}

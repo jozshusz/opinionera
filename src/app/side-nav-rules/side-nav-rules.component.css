@@ -1,0 +1,13 @@
+a{
+    color: inherit;
+    font-size: 15px;
+}
+
+mat-divider {
+    margin-bottom: 40%;
+}
+
+.active{
+    font-weight: bold;
+    border-left: 2px solid black;
+}

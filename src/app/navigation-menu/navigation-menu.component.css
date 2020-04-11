@@ -17,7 +17,18 @@
 }
 
 nav{
-    padding: 12px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.form-inline{
+    width: 55%;
+}
+
+#search_input{
+    width: 70%;
+}
+
+ul{
+    margin-right: 10px;
 }
