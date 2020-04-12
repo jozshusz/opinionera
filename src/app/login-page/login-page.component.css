@@ -1,0 +1,15 @@
+.page_title{
+    padding-top: 10%;
+}
+
+.login_container{
+    width: 40%;
+    margin-left: 30%;
+    margin-bottom: 15%;
+   /* background-color: #6E807A;*/
+}
+
+.register_button{
+    text-decoration: none;
+    margin-top: 2%;
+}

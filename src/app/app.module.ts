@@ -19,6 +19,7 @@ import { SideNavTopicsComponent } from './side-nav-topics/side-nav-topics.compon
 import { SideNavNewsComponent } from './side-nav-news/side-nav-news.component';
 import { SideNavRulesComponent } from './side-nav-rules/side-nav-rules.component';
 import { SideNavLoginComponent } from './side-nav-login/side-nav-login.component';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
    declarations: [
@@ -42,7 +43,8 @@ import { SideNavLoginComponent } from './side-nav-login/side-nav-login.component
       BrowserAnimationsModule,
       MatRippleModule,
       MatListModule,
-      MatSidenavModule
+      MatSidenavModule,
+      MatButtonModule
    ],
    providers: [],
    bootstrap: [
