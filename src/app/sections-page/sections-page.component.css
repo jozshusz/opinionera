@@ -4,7 +4,8 @@
 }
 
 mat-list{
-    box-shadow: 3px 5px 8px #888888;
+    border-radius: 15px;
+    box-shadow: 1px 1px 5px #888888;
     margin-bottom: 4%;
     background-color: white;
 }
@@ -13,6 +14,7 @@ mat-list{
     font-size: 26px;
     color: white;
     background-color: #006079;
+    border-radius: 15px 15px 0px 0px;
 }
 
 .topic_container{
@@ -20,4 +22,8 @@ mat-list{
     margin-left: 20%;
     margin-bottom: 5%;
    /* background-color: #6E807A;*/
+}
+
+mat-list-item{
+    padding-top: 50px;
 }

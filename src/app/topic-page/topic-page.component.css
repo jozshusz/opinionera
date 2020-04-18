@@ -1,0 +1,33 @@
+/* base */
+
+.page_title{
+    padding-top: 2%;
+    text-decoration: underline;
+}
+
+.topic_container{
+    width: 60%;
+    margin-left: 20%;
+    margin-bottom: 5%;
+    min-height: 500px;
+}
+
+/* base */
+
+.sub_title{
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+mat-list{
+    box-shadow: 1px 1px 5px #888888;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.mat-subheader{
+    background-color: rgb(197, 197, 197);
+    border-radius: 15px 15px 0px 0px;
+    background-color: #006079;
+    color: white;
+}

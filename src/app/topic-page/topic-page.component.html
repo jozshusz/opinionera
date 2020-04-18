@@ -1,0 +1,18 @@
+<div class="page_container">
+  <div class="topic_container">
+    <div>
+      <h1 class="page_title"> {{ currentTopic.name }} </h1>
+      <h2 class="sub_title"> {{ currentTopic.description }} </h2>
+    </div>
+    <mat-list>
+      <div mat-subheader>Posztok</div>
+      <mat-list-item  *ngFor="let post of currentPostList">
+        <div mat-line> 
+          <a [routerLink]="['./', post.id]"> {{ post.name }} </a>
+        </div>
+        <div mat-line> {{ post.description }} </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

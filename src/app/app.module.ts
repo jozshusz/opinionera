@@ -8,18 +8,23 @@ import { FooterComponent } from './footer/footer.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { NavigationMenuComponent } from './navigation-menu/navigation-menu.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatRippleModule} from '@angular/material/core';
-import { TopicsPageComponent } from './topics-page/topics-page.component';
+import { MatRippleModule } from '@angular/material/core';
+import { SectionsPageComponent } from './sections-page/sections-page.component';
 import { RulesPageComponent } from './rules-page/rules-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
-import {MatListModule} from '@angular/material/list';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { NewsPageComponent } from './news-page/news-page.component';
 import { SideNavTopicsComponent } from './side-nav-topics/side-nav-topics.component';
 import { SideNavNewsComponent } from './side-nav-news/side-nav-news.component';
 import { SideNavRulesComponent } from './side-nav-rules/side-nav-rules.component';
 import { SideNavLoginComponent } from './side-nav-login/side-nav-login.component';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
+import { TopicPageComponent } from './topic-page/topic-page.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { PostPageComponent } from './post-page/post-page.component';
 
 @NgModule({
    declarations: [
@@ -28,14 +33,16 @@ import {MatButtonModule} from '@angular/material/button';
       FooterComponent,
       MainContentComponent,
       NavigationMenuComponent,
-      TopicsPageComponent,
+      SectionsPageComponent,
       RulesPageComponent,
       LoginPageComponent,
       NewsPageComponent,
       SideNavTopicsComponent,
       SideNavNewsComponent,
       SideNavRulesComponent,
-      SideNavLoginComponent
+      SideNavLoginComponent,
+      TopicPageComponent,
+      PostPageComponent
    ],
    imports: [
       BrowserModule,
@@ -44,7 +51,10 @@ import {MatButtonModule} from '@angular/material/button';
       MatRippleModule,
       MatListModule,
       MatSidenavModule,
-      MatButtonModule
+      MatButtonModule,
+      HttpClientModule,
+      MatTableModule,
+      MatPaginatorModule
    ],
    providers: [],
    bootstrap: [

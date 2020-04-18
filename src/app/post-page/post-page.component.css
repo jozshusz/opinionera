@@ -1,0 +1,22 @@
+/* base */
+
+.page_title{
+    padding-top: 2%;
+    text-decoration: underline;
+}
+
+.post_container{
+    width: 60%;
+    margin-left: 20%;
+    margin-bottom: 5%;
+    min-height: 500px;
+}
+
+/* base */
+
+.comment{
+    margin-top: 1%;
+    background-color: white;
+    min-height: 200px;
+    box-shadow: 1px 1px 5px #888888;
+}

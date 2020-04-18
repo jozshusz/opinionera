@@ -1,2 +1,5 @@
 <!-- This is where all the content goes, even when the user navigates through menu links (NewsPage, Rules, Topics, Login) -->
-<router-outlet></router-outlet>
+<!-- load only if the neccesery datas arrived -->
+<div *ngIf="isLoaded">
+    <router-outlet></router-outlet>
+</div>
