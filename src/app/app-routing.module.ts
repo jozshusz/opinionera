@@ -10,6 +10,12 @@ import { SideNavRulesComponent } from './side-nav-rules/side-nav-rules.component
 import { SideNavLoginComponent } from './side-nav-login/side-nav-login.component';
 import { TopicPageComponent } from './topic-page/topic-page.component';
 import { PostPageComponent } from './post-page/post-page.component';
+import { SignupComponent } from './signup/signup.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { BeforeLoginService } from './api/login/before-login.service';
+import { AfterLoginService } from './api/login/after-login.service';
+import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
+import { ResponsePasswordResetComponent } from './response-password-reset/response-password-reset.component';
 
 
 const routes: Routes = [
@@ -19,6 +25,10 @@ const routes: Routes = [
   { path: 'news', redirectTo: '/news(sidebar:news)', pathMatch: 'full'},
   { path: 'rules', redirectTo: '/rules(sidebar:rules)', pathMatch: 'full'},
   { path: 'login', redirectTo: '/login(sidebar:login)', pathMatch: 'full'},
+  { path: 'signup', redirectTo: '/signup(sidebar:login)', pathMatch: 'full'},
+  { path: 'profile', redirectTo: '/profile(sidebar:login)', pathMatch: 'full'},
+  { path: 'reqpwreset', redirectTo: '/reqpwreset(sidebar:login)', pathMatch: 'full'},
+  //{ path: 'responsepwreset', redirectTo: '/responsepwreset(sidebar:login)', pathMatch: 'full'},
   { path: 'section/:sectionId/:topicId', redirectTo: '/section/:sectionId/:topicId(sidebar:topics)', pathMatch: 'full'},
   { path: 'section/:sectionId/:topicId/:postId', redirectTo: '/section/:sectionId/:topicId/:postId(sidebar:topics)', pathMatch: 'full'},
 
@@ -26,7 +36,11 @@ const routes: Routes = [
   { path: 'sections', component: SectionsPageComponent },
   { path: 'news', component: NewsPageComponent },
   { path: 'rules', component: RulesPageComponent },
-  { path: 'login', component: LoginPageComponent },
+  { path: 'login', component: LoginPageComponent, canActivate: [BeforeLoginService] },
+  { path: 'signup', component: SignupComponent, canActivate: [BeforeLoginService] },
+  { path: 'profile', component: UserProfileComponent, canActivate: [AfterLoginService]  },
+  { path: 'reqpwreset', component: RequestPasswordResetComponent, canActivate: [BeforeLoginService]  },
+  { path: 'responsepwreset', component: ResponsePasswordResetComponent, canActivate: [BeforeLoginService]  },
   { path: 'section/:sectionId/:topicId', component: TopicPageComponent },
   { path: 'section/:sectionId/:topicId/:postId', component: PostPageComponent },
 
@@ -56,6 +70,9 @@ const routes: Routes = [
     component: SideNavLoginComponent,
     outlet: 'sidebar'
   },
+
+  // IF no match
+  { path: '**', redirectTo: '/sections(sidebar:topics)' },
 
 ];
 

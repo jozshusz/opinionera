@@ -22,9 +22,15 @@ import { SideNavLoginComponent } from './side-nav-login/side-nav-login.component
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { TopicPageComponent } from './topic-page/topic-page.component';
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { PostPageComponent } from './post-page/post-page.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SignupComponent } from './signup/signup.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
+import { ResponsePasswordResetComponent } from './response-password-reset/response-password-reset.component';
 
 @NgModule({
    declarations: [
@@ -42,7 +48,11 @@ import { PostPageComponent } from './post-page/post-page.component';
       SideNavRulesComponent,
       SideNavLoginComponent,
       TopicPageComponent,
-      PostPageComponent
+      PostPageComponent,
+      SignupComponent,
+      UserProfileComponent,
+      RequestPasswordResetComponent,
+      ResponsePasswordResetComponent
    ],
    imports: [
       BrowserModule,
@@ -54,7 +64,9 @@ import { PostPageComponent } from './post-page/post-page.component';
       MatButtonModule,
       HttpClientModule,
       MatTableModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      FormsModule,
+      ReactiveFormsModule
    ],
    providers: [],
    bootstrap: [

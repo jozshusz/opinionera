@@ -19,10 +19,16 @@
         <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Keresés</button>
       </form>
       <ul class="navbar-nav">
-        <li matRipple class="nav-item" [routerLinkActive]="['active']" id="login_nav">
+        <li matRipple class="nav-item" [routerLinkActive]="['active']" id="login_nav" *ngIf="!loggedIn">
           <a class="nav-link" [routerLink]="[{ outlets: { primary: ['login'], sidebar: ['login'] } }]">Bejelentkezés 
             <img src="../../assets/img/loginIcon.svg" style="width: 20px;" class="avatar" alt="icon">
           </a>
+        </li>
+        <li matRipple class="nav-item" [routerLinkActive]="['active']" id="profile_nav" *ngIf="loggedIn">
+          <a class="nav-link" [routerLink]="[{ outlets: { primary: ['profile'], sidebar: ['login'] } }]">Profil</a>
+        </li>
+        <li matRipple class="nav-item" [routerLinkActive]="['active']" id="logout_nav" *ngIf="loggedIn">
+          <a class="nav-link" href="#" (click)="logout($event)">Kijelentkezés</a>
         </li>
       </ul>
     </div>
