@@ -11,6 +11,7 @@ import { AuthService } from '../api/auth/auth.service';
 export class ResponsePasswordResetComponent implements OnInit {
 
   public errorMessage;
+  public errorMessageEmailOrToken;
   submitted = false;
   loading = false;
   pwResetForm = this.formBuilder.group({
@@ -52,7 +53,13 @@ export class ResponsePasswordResetComponent implements OnInit {
 
   // error handling for email format and password match
   handleError(error){
+    this.errorMessageEmailOrToken = null;
     this.errorMessage = error.error.errors;
+
+    if(!this.errorMessage){
+      this.errorMessageEmailOrToken = "Az email nem megfelelő";
+    }
+
     this.loading = false;
   }
 

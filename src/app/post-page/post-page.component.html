@@ -1,16 +1,32 @@
 <div>
   <div class="post_container">
     <div class="page_title">
-      <h1> Poszt </h1>
+      <h1> {{ currentPost.name }} </h1>
     </div>
-
-    <div class="comment">
-
+    {{ currentPost.description }}
+    <div *ngIf="isLoggedIn" class="new_comment">
+      <button type="button" class="btn btn-dark" (click)="newCommentButton()">Új hozzászólás</button>
+      <div *ngIf="newComment" class="input-area">
+        <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <textarea type="text" placeholder="A hozzászólásod" 
+              formControlName="text" id="commentText" rows="5" 
+              class="form-control" [ngClass]="{ 'is-invalid': submitted && f.text.errors }">
+            </textarea>
+            <div *ngIf="submitted && f.text.errors" class="invalid-feedback">
+              <div *ngIf="f.text.errors.required">Nem küldhetsz üres hozzászólást</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-dark">Hozzászólás elküldése</button>
+          </div>
+        </form>
+      </div>
     </div>
-
-    <div class="comment">
-      
+    <div class="comments">
+      <div *ngFor="let comment of comments" class="comment">
+        {{ comment.text }}
+      </div>
     </div>
-
   </div>
 </div>

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../api/auth/auth.service';
 import { TokenService } from '../api/token/token.service';
 import { Router } from '@angular/router';
+import { StatusService } from '../api/status/status.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit {
 
+  public errorMessage;
   signupForm: FormGroup;
   submitted = false;
   loading = false;
@@ -19,7 +21,8 @@ export class SignupComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private tokenService: TokenService,
-    private router: Router
+    private router: Router,
+    private statusService: StatusService
     ) { }
 
   ngOnInit() {
@@ -36,7 +39,7 @@ export class SignupComponent implements OnInit {
     this.loading = true;
     this.authService.signUp(this.signupForm.value).subscribe(
       data => this.handleResponse(data),
-      error => console.log(error)
+      error => this.handleError(error)
     );
     this.loading = false;
   }
@@ -45,6 +48,14 @@ export class SignupComponent implements OnInit {
 
   handleResponse(data){
     this.tokenService.handle(data.access_token);
+    this.statusService.changeAuthStatus(true);
     this.router.navigateByUrl('/profile');
+  }
+
+  // error handling for email format and password match
+  handleError(error){
+    this.errorMessage = error.error.errors;
+
+    this.loading = false;
   }
 }

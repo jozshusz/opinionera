@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RequestPasswordResetComponent implements OnInit {
 
+  public errorMessage;
   loading = false;
   submitted = false;
 
@@ -30,7 +31,7 @@ export class RequestPasswordResetComponent implements OnInit {
     this.loading = true;
     this.authService.sendPasswordResetLink(this.form.value).subscribe(
       data => this.handleResponse(data),
-      error => console.log(error)
+      error => this.handleError(error)
     );
   }
 
@@ -39,6 +40,13 @@ export class RequestPasswordResetComponent implements OnInit {
   handleResponse(res){
     console.log(res);
     this.form.value.email = null;
+    this.loading = false;
+  }
+
+  // error handling for email format and password match
+  handleError(error){
+    this.errorMessage = error.error.error;
+
     this.loading = false;
   }
 }

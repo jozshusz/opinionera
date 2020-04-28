@@ -9,10 +9,9 @@ import { catchError, retry } from 'rxjs/operators';
 export class GetAllPostsService {
 
   postsList: any;
+  private baseUrl = 'http://www.forumbackend.com/api/';
 
   constructor(private http: HttpClient) { }
-
-  private baseUrl = 'http://www.forumbackend.com/api/';
 
   getPosts() {
     return this.http.get(this.baseUrl + "posts");
@@ -25,5 +24,11 @@ export class GetAllPostsService {
 
   getPostsList(){
     return this.postsList;
+  }
+
+  getPost(sectionId, topicId, postId){
+    var currentTopic = this.postsList.filter(x => x.id == sectionId)[0]['topics'].filter(y => y.id == topicId)[0];
+    var currentPost = currentTopic['posts'].filter(x => x.id == postId)[0];
+    return currentPost;
   }
 }

@@ -12,6 +12,7 @@ import { StatusService } from '../api/status/status.service';
 })
 export class LoginPageComponent implements OnInit {
 
+  public errorMessage;
   loginForm: FormGroup;
   submitted = false;
   loading = false;
@@ -36,7 +37,7 @@ export class LoginPageComponent implements OnInit {
     this.loading = true;
     this.authService.login(this.loginForm.value).subscribe(
       data => this.handleResponse(data),
-      error => console.log(error)
+      error => this.handleError(error)
     );
     this.loading = false;
   }
@@ -47,6 +48,10 @@ export class LoginPageComponent implements OnInit {
     this.tokenService.handle(data.access_token);
     this.statusService.changeAuthStatus(true);
     this.router.navigateByUrl('/profile');
+  }
+
+  handleError(error){
+    this.errorMessage = "Az email vagy jelszó nem megfelelő"
   }
 
 }
