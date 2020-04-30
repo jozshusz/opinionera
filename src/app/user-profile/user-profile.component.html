@@ -3,6 +3,31 @@
     <div class="page_title">
       <h1> Felhasználói profil </h1>
     </div>
-    
+    <h2 *ngIf="userInfo">Üdvözlünk <b>{{ userInfo.username }}</b>!</h2>
+    <div *ngIf="userInfo" class="user_info_container row">
+      <i *ngIf="userInfo.avatar === 'default'" class="fas fa-user fa-5x"></i>
+      <img *ngIf="userInfo.avatar !== 'default'" 
+            src="http://www.forumbackend.com/img/{{userInfo.avatar}}"
+            height="50" width="50"/>
+      <div class="user_infos">
+        <ul>
+          <li>
+            {{ userInfo.status }}
+          </li>
+          <li>
+            {{ userInfo.rank }}
+          </li>
+          <li>
+            upvotes: {{ userInfo.upvotes }}
+          </li>
+        </ul>
+        Tölts fel egy avatart (maximum 1MB)
+        <br>
+        <input #selectFileInput type="file" (change)="onFileSelected($event)">
+        <span class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</span>
+        <span class="text-success" *ngIf="responseMessage">{{ responseMessage }}</span>
+        <button type="button" (click)="onUpload()">Feltöltés</button>
+      </div>
+    </div>
   </div>
 </div>

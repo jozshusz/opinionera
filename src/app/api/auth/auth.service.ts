@@ -26,4 +26,8 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'changePassword', data);
   }
 
+  getUser(data){
+    return this.http.post(this.baseUrl + 'me', data);
+  }
+
 }
