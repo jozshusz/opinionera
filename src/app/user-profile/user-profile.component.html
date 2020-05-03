@@ -4,12 +4,43 @@
       <h1> Saját profil </h1>
     </div>
     <h2 *ngIf="userInfo">Üdvözlünk <b>{{ userInfo.username }}</b>!</h2>
-    <div class="notifications container">
+    <div *ngIf="userInfo" class="notifications container">
       <h2>Értesítések</h2>
+      <ol>
+        <li *ngFor="let notification of userInfo.notifications">
+          {{ notification.message }} - {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+        </li>
+      </ol>
     </div>
     <br>
-    <div class="messages container">
+    <div *ngIf="userInfo" class="messages container">
       <h2>Üzenetek</h2>
+      <h3>Beérkezett üzenetek</h3>
+      <ol>
+        <li *ngFor="let receivedMsg of userInfo.received">
+          Küldte: {{ receivedMsg.sender_user_id }}
+          <br>
+          Tárgy: {{ receivedMsg.header }}
+          <br>
+          Üzenet: {{ receivedMsg.body }}
+          <br>
+          Dátum: {{ receivedMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}
+          <br>
+        </li>
+      </ol>
+      <h3>Elküldött üzenetek</h3>
+      <ol>
+        <li *ngFor="let sentMsg of userInfo.sent">
+          Címzett: {{ sentMsg.receiver_user_id }}
+          <br>
+          Tárgy: {{ sentMsg.header }}
+          <br>
+          Üzenet: {{ sentMsg.body }}
+          <br>
+          Dátum: {{ sentMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}
+          <br>
+        </li>
+      </ol>
     </div>
     <br>
     <div *ngIf="userInfo" class="container user_info_container">

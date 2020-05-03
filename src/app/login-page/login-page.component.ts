@@ -16,6 +16,7 @@ export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   submitted = false;
   loading = false;
+  token;
 
   constructor(
       private formBuilder: FormBuilder,

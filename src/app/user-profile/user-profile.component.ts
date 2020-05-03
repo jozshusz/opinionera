@@ -3,6 +3,7 @@ import { AuthService } from '../api/auth/auth.service';
 import { TokenService } from '../api/token/token.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ViewChild } from '@angular/core';
+import { MessageNotificationService } from '../api/message-notification/message-notification.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -32,6 +33,7 @@ export class UserProfileComponent implements OnInit {
     this.token = {
       'token': this.tokenService.get()
     };
+
     this.authService.getCurrentUser(this.token).subscribe(
       data => this.handleResponse(data),
       error => this.handleError(error)
@@ -39,6 +41,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   handleResponse(data){
+    console.log(data);
     this.userInfo = data;
   }
 

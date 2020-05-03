@@ -10,6 +10,32 @@
         <img *ngIf="userInfo.avatar !== 'default'" 
               src="http://www.forumbackend.com/img/{{userInfo.avatar}}"
               height="50" width="50"/>
+        <button type="button" class="btn btn-dark" (click)="sendMessageButton()">Üzenet küldése</button>
+        <div *ngIf="sendMessage" class="input-area">
+          <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <input type="text" formControlName="messageHeader" 
+              class="form-control" placeholder="Üzenet tárgya"
+              [ngClass]="{ 'is-invalid': submitted && f.messageHeader.errors }"/>
+              <div *ngIf="submitted && f.messageHeader.errors" class="invalid-feedback">
+                  <div *ngIf="f.messageHeader.errors.required">A fejléc kitöltése kötelező</div>
+              </div>
+              <textarea type="text" placeholder="Üzenet szövege" 
+                formControlName="messageBody" id="messageBody" rows="5" 
+                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.messageBody.errors }">
+              </textarea>
+              <div *ngIf="submitted && f.messageBody.errors" class="invalid-feedback">
+                <div *ngIf="f.messageBody.errors.required">Nem küldhetsz üres üzenetet</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button [disabled]="loading" class="btn btn-dark">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Üzenet elküldése
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
       <div class="column">
         <ul>
