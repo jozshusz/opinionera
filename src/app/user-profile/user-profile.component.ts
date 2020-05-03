@@ -32,7 +32,7 @@ export class UserProfileComponent implements OnInit {
     this.token = {
       'token': this.tokenService.get()
     };
-    this.authService.getUser(this.token).subscribe(
+    this.authService.getCurrentUser(this.token).subscribe(
       data => this.handleResponse(data),
       error => this.handleError(error)
     );

@@ -1,0 +1,51 @@
+<div>
+  <div class="others_profile_container" *ngIf="userInfo">
+    <div class="page_title">
+      <h1> Profil megtekintés </h1>
+    </div>
+    <h2><b>{{ userInfo.username }}</b> profilja</h2>
+    <div *ngIf="userInfo" class="user_info_container row">
+      <div class="column">
+        <i *ngIf="userInfo.avatar === 'default'" class="fas fa-user fa-5x"></i>
+        <img *ngIf="userInfo.avatar !== 'default'" 
+              src="http://www.forumbackend.com/img/{{userInfo.avatar}}"
+              height="50" width="50"/>
+      </div>
+      <div class="column">
+        <ul>
+          <li>
+            Név: {{ userInfo.username }}
+          </li>
+          <li>
+            Bio: {{ userInfo.bio }}
+            <p *ngIf="userInfo.bio == null"> Még nem adott meg leírást.</p>
+          </li>
+          <li>
+            Email: {{ userInfo.email }}
+          </li>
+        </ul>
+      </div>
+      <div class="column">
+        <ul>
+          <li>
+            Szavazatok: {{ userInfo.upvotes }}
+          </li>
+          <li>
+            Rank: {{ userInfo.rank }}
+          </li>
+          <li>
+            Státusz: {{ userInfo.status }}
+          </li>
+        </ul>
+      </div>
+      <div class="user_comments row">
+        {{ userInfo.username }} kommentjei:
+        <ul>
+          <li *ngFor="let comment of userInfo.comments">
+            {{ comment.text }} {{ comment.created_at | date: 'yyyy-MM-dd HH:mm'}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

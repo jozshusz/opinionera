@@ -16,6 +16,7 @@ import { BeforeLoginService } from './api/login/before-login.service';
 import { AfterLoginService } from './api/login/after-login.service';
 import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
 import { ResponsePasswordResetComponent } from './response-password-reset/response-password-reset.component';
+import { OthersProfileComponent } from './others-profile/others-profile.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'login', redirectTo: '/login(sidebar:login)', pathMatch: 'full'},
   { path: 'signup', redirectTo: '/signup(sidebar:login)', pathMatch: 'full'},
   { path: 'profile', redirectTo: '/profile(sidebar:login)', pathMatch: 'full'},
+  { path: 'profile/:userId', redirectTo: '/profile/:userId(sidebar:topics)', pathMatch: 'full'},
   { path: 'reqpwreset', redirectTo: '/reqpwreset(sidebar:login)', pathMatch: 'full'},
   //{ path: 'responsepwreset', redirectTo: '/responsepwreset(sidebar:login)', pathMatch: 'full'},
   { path: 'section/:sectionId/:topicId', redirectTo: '/section/:sectionId/:topicId(sidebar:topics)', pathMatch: 'full'},
@@ -39,6 +41,7 @@ const routes: Routes = [
   { path: 'login', component: LoginPageComponent, canActivate: [BeforeLoginService] },
   { path: 'signup', component: SignupComponent, canActivate: [BeforeLoginService] },
   { path: 'profile', component: UserProfileComponent, canActivate: [AfterLoginService]  },
+  { path: 'profile/:userId', component: OthersProfileComponent },
   { path: 'reqpwreset', component: RequestPasswordResetComponent, canActivate: [BeforeLoginService]  },
   { path: 'responsepwreset', component: ResponsePasswordResetComponent, canActivate: [BeforeLoginService]  },
   { path: 'section/:sectionId/:topicId', component: TopicPageComponent },

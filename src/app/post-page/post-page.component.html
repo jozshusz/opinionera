@@ -30,14 +30,16 @@
           <img *ngIf="comment.user.avatar !== 'default'" 
                 src="http://www.forumbackend.com/img/{{comment.user.avatar}}"
                 height="50" width="50"/>
-          <h2>{{ comment.user.username }}</h2>
+          <h2>
+            <a [routerLink]="['/profile', comment.user.id]">{{ comment.user.username }}</a>
+          </h2>
           {{ comment.user.status }}
         </div>
         <div class="col comment_text">
           {{ comment.text }}
           <br>
           <div class="comment_date float-right">
-            {{ comment.created_at | date: 'yyyy-MM-dd' }}
+            {{ comment.created_at | date: 'yyyy-MM-dd HH:mm' }}
           </div>
         </div>
         <div class="col-2 comment_upvotes">

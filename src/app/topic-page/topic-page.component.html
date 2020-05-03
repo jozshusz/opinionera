@@ -7,10 +7,22 @@
     <mat-list>
       <div mat-subheader>Posztok</div>
       <mat-list-item  *ngFor="let post of currentPostList">
-        <div mat-line> 
-          <a [routerLink]="['./', post.id]"> {{ post.name }} </a>
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <div mat-line> 
+                <a [routerLink]="['./', post.id]"> {{ post.name }} </a>
+              </div>
+              <div mat-line> {{ post.description }} </div>
+            </div>
+            <div class="col">
+              <a [routerLink]="['./', post.id, {comment: post.last_comment_id}]">
+                {{ post.last_comment_date }}
+                {{ post.last_comment_user }}
+              </a>
+            </div>
+          </div>
         </div>
-        <div mat-line> {{ post.description }} </div>
         <mat-divider></mat-divider>
       </mat-list-item>
     </mat-list>

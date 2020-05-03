@@ -1,10 +1,19 @@
 <div>
   <div class="profile_container">
     <div class="page_title">
-      <h1> Felhasználói profil </h1>
+      <h1> Saját profil </h1>
     </div>
     <h2 *ngIf="userInfo">Üdvözlünk <b>{{ userInfo.username }}</b>!</h2>
-    <div *ngIf="userInfo" class="user_info_container row">
+    <div class="notifications container">
+      <h2>Értesítések</h2>
+    </div>
+    <br>
+    <div class="messages container">
+      <h2>Üzenetek</h2>
+    </div>
+    <br>
+    <div *ngIf="userInfo" class="container user_info_container">
+      <h2>Információk</h2>
       <i *ngIf="userInfo.avatar === 'default'" class="fas fa-user fa-5x"></i>
       <img *ngIf="userInfo.avatar !== 'default'" 
             src="http://www.forumbackend.com/img/{{userInfo.avatar}}"

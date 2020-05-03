@@ -26,7 +26,7 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'changePassword', data);
   }
 
-  getUser(data){
+  getCurrentUser(data){
     return this.http.post(this.baseUrl + 'me', data);
   }
 

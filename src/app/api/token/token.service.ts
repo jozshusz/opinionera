@@ -12,12 +12,13 @@ export class TokenService {
 
   constructor() { }
 
-  handle(token){
-    this.set(token);
+  handle(token, userId){
+    this.set(token, userId);
   }
 
-  set(token){
+  set(token, userId){
     localStorage.setItem('token', token);
+    localStorage.setItem('userId', userId);
   }
 
   get(){
@@ -26,6 +27,7 @@ export class TokenService {
 
   remove(){
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
   }
 
   isValid(){

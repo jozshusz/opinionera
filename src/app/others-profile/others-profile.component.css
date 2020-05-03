@@ -3,13 +3,13 @@
     text-decoration: underline;
 }
 
-.profile_container{
+.others_profile_container{
     width: 60%;
     margin-left: 20%;
     margin-bottom: 5%;
 }
 
-.container{
+.user_info_container{
     background-color: white;
     padding: 2%;
 }
