@@ -32,6 +32,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
 import { ResponsePasswordResetComponent } from './response-password-reset/response-password-reset.component';
 import { OthersProfileComponent } from './others-profile/others-profile.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
    declarations: [
@@ -68,7 +69,8 @@ import { OthersProfileComponent } from './others-profile/others-profile.componen
       MatTableModule,
       MatPaginatorModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      MatBadgeModule
    ],
    providers: [],
    bootstrap: [

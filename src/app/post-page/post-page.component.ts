@@ -5,6 +5,7 @@ import { TokenService } from '../api/token/token.service';
 import { GetCommentsService } from '../api/get-comments/get-comments.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SendCommentService } from '../api/send-comment/send-comment.service';
+import { MessageNotificationService } from '../api/message-notification/message-notification.service';
 
 @Component({
   selector: 'app-post-page',
@@ -31,7 +32,8 @@ export class PostPageComponent implements OnInit {
     private route: ActivatedRoute,
     private tokenService: TokenService,
     private commentService: GetCommentsService,
-    private sendCommentService: SendCommentService
+    private sendCommentService: SendCommentService,
+    private msgNotificationService: MessageNotificationService
     ) { }
 
   ngOnInit() {
@@ -85,6 +87,16 @@ export class PostPageComponent implements OnInit {
     // make new comment appear in frontend
     this.comments.push(data);
     this.newComment = false;
+
+    // send notifications to people following this post
+    this.msgNotificationService.notifyFollowers({
+      'token': this.tokenService.get(),
+      'postId': this.postId,
+      'commentId': data.id
+    }).subscribe(
+      data => console.log('Comment sent'),
+      error => console.log(error)
+    );
   }
 
 }

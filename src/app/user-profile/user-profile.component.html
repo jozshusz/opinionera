@@ -7,8 +7,11 @@
     <div *ngIf="userInfo" class="notifications container">
       <h2>Értesítések</h2>
       <ol>
-        <li *ngFor="let notification of userInfo.notifications">
-          {{ notification.message }} - {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+        <li *ngFor="let notification of userInfo.notifications" [ngClass]="{'newNotificationClass': !notification.opened}">
+          <a class="notificationsClass" [routerLink]="" (click)="toggleMsgNoti(notification, true)">{{ notification.message }}</a>
+          <div *ngIf="notification.show">
+            {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+          </div>
         </li>
       </ol>
     </div>
@@ -17,28 +20,33 @@
       <h2>Üzenetek</h2>
       <h3>Beérkezett üzenetek</h3>
       <ol>
-        <li *ngFor="let receivedMsg of userInfo.received">
-          Küldte: {{ receivedMsg.sender_user_id }}
+        <li *ngFor="let receivedMsg of userInfo.received" [ngClass]="{'newNotificationClass': !receivedMsg.opened}">
+          <a class="receivedMessagesClass" [routerLink]="" (click)="toggleMsgNoti(receivedMsg, true)">Tárgy: {{ receivedMsg.header }}</a>
           <br>
-          Tárgy: {{ receivedMsg.header }}
-          <br>
-          Üzenet: {{ receivedMsg.body }}
-          <br>
-          Dátum: {{ receivedMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}
-          <br>
+          <div *ngIf="receivedMsg.show">
+            Küldte: {{ receivedMsg.sender_user_id }}
+            <br>
+            Üzenet: {{ receivedMsg.body }}
+            <br>
+            Dátum: {{ receivedMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}
+            <br>
+          </div>
         </li>
       </ol>
       <h3>Elküldött üzenetek</h3>
       <ol>
         <li *ngFor="let sentMsg of userInfo.sent">
-          Címzett: {{ sentMsg.receiver_user_id }}
+          <a class="sentMessagesClass" [routerLink]="" (click)="toggleMsgNoti(sentMsg, false)">Tárgy: {{ sentMsg.header }}</a>
           <br>
-          Tárgy: {{ sentMsg.header }}
-          <br>
-          Üzenet: {{ sentMsg.body }}
-          <br>
-          Dátum: {{ sentMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}
-          <br>
+          <div *ngIf="sentMsg.show">
+            Címzett: {{ sentMsg.receiver_user_id }}
+            <br>
+            Üzenet: {{ sentMsg.body }}
+            <br>
+            Dátum: {{ sentMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}
+            <br>
+          </div>
+          
         </li>
       </ol>
     </div>

@@ -14,6 +14,7 @@ export class UserProfileComponent implements OnInit {
 
   userInfo = null;
   token;
+  dataJson = null;
 
   selectedFile: File = null;
 
@@ -26,7 +27,8 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tokenService: TokenService,
-    private httpService: HttpClient
+    private httpService: HttpClient,
+    private messageNotificationService: MessageNotificationService
     ) { }
 
   ngOnInit() {
@@ -41,12 +43,34 @@ export class UserProfileComponent implements OnInit {
   }
 
   handleResponse(data){
-    console.log(data);
     this.userInfo = data;
   }
 
   handleError(error){
     console.log(error);
+  }
+
+  toggleMsgNoti(msgNoti, checkNeeded){
+    msgNoti['show'] = !msgNoti['show'];
+    
+    // checkNeeded only true if 'opened' field needs to be changed (notifications and reveived msg)
+    if(checkNeeded){
+      if(!msgNoti.opened){
+        this.dataJson = {
+          'token' : this.token['token'],
+          'id' : msgNoti.id
+        };
+        if(msgNoti.comment_id){
+          this.dataJson['type'] = 'notification';
+        }else{
+          this.dataJson['type'] = 'message';
+        }
+        this.messageNotificationService.setOpenMsgNoti(this.dataJson).subscribe(
+          data => msgNoti['opened'] = true,
+          error => console.log(error)
+        );
+      }
+    }
   }
 
   // Upload avatar

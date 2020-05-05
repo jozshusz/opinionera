@@ -13,4 +13,12 @@ export class MessageNotificationService {
   sendMessage(data) {
     return this.http.post(this.baseUrl + 'sendMessage', data);
   }
+
+  setOpenMsgNoti(data){
+    return this.http.post(this.baseUrl + 'openMsgNoti', data);
+  }
+
+  notifyFollowers(data){
+    return this.http.post(this.baseUrl + 'notifyFollowers', data);
+  }
 }

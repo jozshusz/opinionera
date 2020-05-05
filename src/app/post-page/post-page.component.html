@@ -33,6 +33,7 @@
           <h2>
             <a [routerLink]="['/profile', comment.user.id]">{{ comment.user.username }}</a>
           </h2>
+          {{ comment.user.comment_numbers }}
           {{ comment.user.status }}
         </div>
         <div class="col comment_text">

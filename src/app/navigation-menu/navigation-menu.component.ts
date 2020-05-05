@@ -10,7 +10,9 @@ import { MsgNotiPollingService } from '../api/polling/msg-noti-polling.service';
   styleUrls: ['./navigation-menu.component.css']
 })
 export class NavigationMenuComponent implements OnInit {
+
   public loggedIn: boolean;
+  public hideNotification: boolean = true;
 
   constructor(
     private statusService: StatusService,
@@ -21,6 +23,8 @@ export class NavigationMenuComponent implements OnInit {
 
   ngOnInit() {
     this.statusService.authStatus.subscribe( value => this.loggedIn = value );
+
+    this.pollingService.newMsgNoti.subscribe( value => this.hideNotification = !value );
   }
 
   logout(event: MouseEvent){
@@ -29,5 +33,13 @@ export class NavigationMenuComponent implements OnInit {
     this.statusService.changeAuthStatus(false);
     this.router.navigateByUrl('/login');
     this.tokenService.remove();
+  }
+
+  setShowNotification(){
+    this.hideNotification = true;
+  }
+
+  setHideNotification(){
+    this.hideNotification = true;
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { interval } from 'rxjs/internal/observable/interval';
 import {startWith, switchMap} from "rxjs/operators";
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { StatusService } from '../status/status.service';
 
@@ -12,7 +13,7 @@ export class MsgNotiPollingService {
   pollingData: any;
   value: any = "";
   isLoggedIn = false;
-  public newMsgNoti = null;
+  newMsgNoti = new BehaviorSubject<boolean>(false);
 
   private baseUrl = 'http://www.forumbackend.com/api/';
 
@@ -25,15 +26,15 @@ export class MsgNotiPollingService {
 
   pollMsgNoti(data){
     if(this.isLoggedIn){
-      this.pollingData=interval(3000)
+      this.pollingData=interval(10000)
       .pipe(
         startWith(0),
         switchMap(() => this.http.post(this.baseUrl + 'newMsgNoti', data))
       )
       .subscribe(
           res => {
-              this.newMsgNoti = res;
-              console.log(this.newMsgNoti);
+              console.log(res['needNotification']);
+              this.newMsgNoti.next(res['needNotification']);
           },
           error=>{
             console.log(error);

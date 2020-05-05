@@ -10,11 +10,22 @@ export class SectionsPageComponent implements OnInit {
 
   sections: object;
 
-  constructor(private postsService: GetAllPostsService) { 
-    this.sections = this.postsService.getPostsList();
-  }
+  constructor(
+    private postsService: GetAllPostsService
+    ) { }
 
   ngOnInit() {
+    this.getRecentSections();
+  }
+  
+  getRecentSections(): void{
+    this.postsService.getPosts()
+      .subscribe((res: any) => {
+        this.sections = res;
+        this.postsService.setPostsList(this.sections);
+      }, error => {
+        console.error(error);
+      });
   }
   
 }
