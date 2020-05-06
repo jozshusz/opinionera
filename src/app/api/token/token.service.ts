@@ -25,6 +25,10 @@ export class TokenService {
     return localStorage.getItem('token');
   }
 
+  getUserId(){
+    return localStorage.getItem('userId');
+  }
+
   remove(){
     localStorage.removeItem('token');
     localStorage.removeItem('userId');

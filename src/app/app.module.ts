@@ -33,6 +33,7 @@ import { RequestPasswordResetComponent } from './request-password-reset/request-
 import { ResponsePasswordResetComponent } from './response-password-reset/response-password-reset.component';
 import { OthersProfileComponent } from './others-profile/others-profile.component';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
    declarations: [
@@ -70,7 +71,8 @@ import {MatBadgeModule} from '@angular/material/badge';
       MatPaginatorModule,
       FormsModule,
       ReactiveFormsModule,
-      MatBadgeModule
+      MatBadgeModule,
+      MatCheckboxModule
    ],
    providers: [],
    bootstrap: [

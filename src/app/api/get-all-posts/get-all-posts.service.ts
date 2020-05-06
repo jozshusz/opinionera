@@ -31,4 +31,9 @@ export class GetAllPostsService {
     var currentPost = currentTopic['posts'].filter(x => x.id == postId)[0];
     return currentPost;
   }
+
+  setPost(sectionId, topicId, post){
+    var currentTopic = this.postsList.filter(x => x.id == sectionId)[0]['topics'].filter(y => y.id == topicId)[0];
+    currentTopic['posts'].push(post);
+  }
 }

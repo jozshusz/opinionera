@@ -21,4 +21,8 @@ export class MessageNotificationService {
   notifyFollowers(data){
     return this.http.post(this.baseUrl + 'notifyFollowers', data);
   }
+
+  makeFollower(data){
+    return this.http.post(this.baseUrl + 'makeFollower', data);
+  }
 }

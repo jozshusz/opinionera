@@ -5,8 +5,12 @@
     </div>
     {{ currentPost.description }}
     <div *ngIf="isLoggedIn" class="new_comment">
+      <span class="text-success" *ngIf="currentPost.fresh">
+        Sikeres téma létrehozás! Írj egy kommentet, hogy elkezdődjön a beszélgetés!
+      </span>
       <button type="button" class="btn btn-dark" (click)="newCommentButton()">Új hozzászólás</button>
-      <div *ngIf="newComment" class="input-area">
+      <button type="button" class="btn btn-dark" (click)="startPdfGenerate()">Pdf generálás</button>
+      <div *ngIf="newComment || currentPost.fresh" class="input-area">
         <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <textarea type="text" placeholder="A hozzászólásod" 
@@ -24,7 +28,9 @@
       </div>
     </div>
     <div class="comments">
-      <div *ngFor="let comment of comments" class="comment row">
+      <div *ngFor="let comment of comments" class="comment row" id="{{ comment.id }}">
+        <mat-checkbox (change)="selectComment(comment.id, comment.text, comment.user.username, $event.checked)" 
+        *ngIf="letSelection" class="example-margin"></mat-checkbox>
         <div class="col-2 comment_user">
           <i *ngIf="comment.user.avatar === 'default'" class="fas fa-user fa-5x"></i>
           <img *ngIf="comment.user.avatar !== 'default'" 
@@ -44,7 +50,11 @@
           </div>
         </div>
         <div class="col-2 comment_upvotes">
-          {{ comment.upvotes }}
+          <a *ngIf="userId != comment.user_id" [routerLink]="" (click)="sendLike(comment.id)">
+            <p *ngIf="!comment.upvoted">Tetszik</p>
+            <p *ngIf="comment.upvoted">Nem tetszik</p>
+          </a>
+          {{ comment.upvotes.length }}
         </div>
       </div>
     </div>
