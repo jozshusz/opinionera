@@ -3,31 +3,87 @@
     <div class="page_title">
       <h1> Témák </h1>
     </div>
-    <mat-list *ngFor="let section of sections">
-      <div mat-subheader class="section">{{ section.name }}</div>
-      <mat-list-item *ngFor="let topic of section.topics; let i=index">
-        <div mat-line class="container">
-          <div class="row">
-            <i class="far fa-comment-dots fa-3x col-1"></i>
-            <div class="col">
-              <a class="main_topic" [routerLink]="['/section', section.id, topic.id]">{{ topic.name }}</a>
-              <div mat-line> {{ topic.description }} </div>
-            </div>
-            <div class="col">
-              <div mat-line> 36 poszt </div>
-            </div>
-            <div class="col">
-              <div mat-line> 
-                <a [routerLink]="['/section', section.id, topic.id, topic.last_comment_post_id, {comment: topic.last_comment_id}]">
-                  {{ topic.last_comment_date }}
-                  {{ topic.last_comment_user }}
-                </a> 
+    <div *ngIf="option == 'sections'">
+      <mat-list *ngFor="let section of sections">
+        <div mat-subheader class="section">{{ section.name }}</div>
+        <mat-list-item *ngFor="let topic of section.topics; let i=index">
+          <div mat-line class="container">
+            <div class="row">
+              <i class="far fa-comment-dots fa-3x col-1"></i>
+              <div class="col">
+                <a class="main_topic" [routerLink]="['/section', section.id, topic.id]">{{ topic.name }}</a>
+                <div mat-line> {{ topic.description }} </div>
+              </div>
+              <div class="col">
+                <div mat-line> 36 poszt </div>
+              </div>
+              <div class="col">
+                <div mat-line> 
+                  <a [routerLink]="['/section', section.id, topic.id, topic.last_comment_post_id, {comment: topic.last_comment_id}]">
+                    {{ topic.last_comment_date }}
+                    {{ topic.last_comment_user }}
+                  </a> 
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <mat-divider *ngIf="i != section.topics.length-1"></mat-divider>
-      </mat-list-item>
-    </mat-list>
+          <mat-divider *ngIf="i != section.topics.length-1"></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div *ngIf="option == 'fresh'">
+      <mat-list>
+        <div mat-subheader class="section">Friss kommentek</div>
+        <mat-list-item *ngFor="let comment of freshContainer.comments; let i=index">
+          <div mat-line class="container">
+            <div class="row">
+              <i *ngIf="comment.user.avatar === 'default'" class="fas fa-user fa-5x"></i>
+              <img *ngIf="comment.user.avatar !== 'default'" 
+                    src="http://www.forumbackend.com/img/{{comment.user.avatar}}"
+                    height="50" width="50"/>
+              <div class="col">
+                <a class="main_topic" [routerLink]="['/section', comment.post.topic.section_id, comment.post.topic_id, comment.post_id]">{{ comment.text }}</a>
+                <div mat-line> {{ comment.updated_at | date: 'yyyy-MM-dd HH:mm' }} </div>
+              </div>
+              <div class="col">
+                <div mat-line> 
+                  <a [routerLink]="['/profile', comment.user_id]">
+                    {{ comment.user.username }}
+                    {{ comment.user.status }}
+                  </a> 
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-divider *ngIf="i != freshContainer.comments.length-1"></mat-divider>
+        </mat-list-item>
+      </mat-list>
+      <mat-list>
+        <div mat-subheader class="section">Új posztok</div>
+        <mat-list-item *ngFor="let post of freshContainer.posts; let i=index">
+          <div mat-line class="container">
+            <div class="row">
+              <i class="far fa-comment-dots fa-3x col-1"></i>
+              <div class="col">
+                <a class="main_topic" 
+                [routerLink]="['/section', post.topic.section_id, post.topic_id, post.id]">
+                  {{ post.name }}
+                </a>
+                <div mat-line> {{ post.description }} </div>
+              </div>
+              <div class="col">
+                <div mat-line> 
+                  <a [routerLink]="['/profile', post.user_id]">
+                    {{ post.user.username }}
+                    <div mat-line> {{ post.created_at | date: 'yyyy-MM-dd HH:mm' }} </div>
+                  </a> 
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-divider *ngIf="i != freshContainer.comments.length-1"></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </div>
   </div>
 </div>

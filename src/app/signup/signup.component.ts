@@ -47,7 +47,7 @@ export class SignupComponent implements OnInit {
   get f() { return this.signupForm.controls; }
 
   handleResponse(data){
-    this.tokenService.handle(data.access_token, data.user_id);
+    this.tokenService.handle(data.access_token, data.user_id, data.user_status);
     this.statusService.changeAuthStatus(true);
     this.router.navigateByUrl('/profile');
   }

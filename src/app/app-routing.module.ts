@@ -36,6 +36,8 @@ const routes: Routes = [
 
   //basic routes to components
   { path: 'sections', component: SectionsPageComponent },
+  { path: 'fresh', component: SectionsPageComponent },
+  { path: 'popular', component: SectionsPageComponent },
   { path: 'news', component: NewsPageComponent },
   { path: 'rules', component: RulesPageComponent },
   { path: 'login', component: LoginPageComponent, canActivate: [BeforeLoginService] },

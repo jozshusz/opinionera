@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GetAllPostsService } from '../api/get-all-posts/get-all-posts.service';
 import { ActivatedRoute } from '@angular/router';
 import { TokenService } from '../api/token/token.service';
@@ -32,6 +32,11 @@ export class PostPageComponent implements OnInit {
 
   letSelection = false;
   commentsToGenerate = {};
+  emptyPdf = false;
+
+  adminOrMod = false;
+  explanation;
+  newText;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,11 +60,12 @@ export class PostPageComponent implements OnInit {
       this.isLoggedIn = this.tokenService.loggedIn();
       if(this.isLoggedIn){
         this.userId = this.tokenService.getUserId();
+        if(this.tokenService.getUserStatus() == 'admin' || this.tokenService.getUserStatus() == 'mod'){
+          this.adminOrMod = true;
+        }
       }
 
       this.initComments(this.postId);
-
-      
 
       this.commentForm = this.formBuilder.group({
         text: ['', Validators.required],
@@ -107,6 +113,7 @@ export class PostPageComponent implements OnInit {
   handleResponse(data): void{
     // make new comment appear in frontend
     this.comments.push(data);
+    this.comments.filter(x => x.id == data.id)[0].upvotes = [];
     this.newComment = false;
 
     // send notifications to people following this post
@@ -152,25 +159,95 @@ export class PostPageComponent implements OnInit {
   }
 
   selectComment(commentId, text, username, event){
-    let result;
     // check if it select and not de-select
     if(event){
       this.commentsToGenerate[commentId] = text;
-      result = document.getElementById(commentId);
     }else{
       // if it is a de-selection, then the stored comment should be removed
       delete this.commentsToGenerate[commentId];
     }
+  }
 
-    console.log(this.commentsToGenerate);
+  finishPdfGenerate(){
+    let printString = "";
+    for(var index in this.commentsToGenerate) {
+      printString += document.getElementById(index).innerHTML + "<br>";
+    }
+    if(printString.length > 0){
+      this.emptyPdf = false;
+      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
+      printString = "<h2>" + this.currentPost.name + "</h2><br>" + printString;
+      pdf.fromHTML(printString, 15, 15, {
+        width: 190
+      });
+      pdf.save('teszt.pdf');
+    }else{
+      this.emptyPdf = true;
+    }
+  }
 
-    // create pdf
-    let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-    pdf.fromHTML(result, 15, 15, {
-      width: 190
-    });
+  // admin/mod delete
+  deleteComment(commentId){
+    document.getElementById("closeButton-" + commentId).click();
+    this.sendCommentService.deleteComment({
+      "commentId": commentId,
+      "token": this.tokenService.get(),
+      "explanation": this.explanation
+    }).subscribe(
+      data => {
+        console.log(data);
+        this.comments.filter(x => x.id == commentId)[0]['moderated'] = true;
+        this.comments.filter(x => x.id == commentId)[0]['text'] = data['text'];
+      },
+      error => console.log(error)
+    );
+  }
 
-    pdf.save('teszt.pdf');
+  editComment(commentId){
+    this.comments.filter(x => x.id == commentId)[0]['canEditComment'] = true;
+    this.newText = this.comments.filter(x => x.id == commentId)[0]['text'];
+  }
+
+  cancelEdit(commentId){
+    this.comments.filter(x => x.id == commentId)[0]['canEditComment'] = false;
+  }
+
+  saveEdit(commentId){
+    this.sendCommentService.updateComment({
+      'token': this.tokenService.get(),
+      'commentId': commentId,
+      'commentText': this.newText
+    }).subscribe(
+      data => {
+        this.comments.filter(x => x.id == commentId)[0]['text'] = this.newText;
+        this.comments.filter(x => x.id == commentId)[0]['canEditComment'] = false;
+      },
+      error => console.log(error)
+    );
+  }
+
+  deleteOwnComment(commentId){
+    this.sendCommentService.deleteOwnComment({
+      'token': this.tokenService.get(),
+      'commentId': commentId
+    }).subscribe(
+      data => {
+        document.getElementById("closeOwnDelete-" + commentId).click();
+        // remove comment from frontend as well
+        this.comments = this.comments.filter(({ id }) => id !== commentId); 
+      },
+      error => console.log(error)
+    );
+  }
+
+  reportComment(commentId){
+    this.sendCommentService.reportComment({
+      'token': this.tokenService.get(),
+      'commentId': commentId
+    }).subscribe(
+      data => console.log(data),
+      error => console.log(error)
+    );
   }
 
 }

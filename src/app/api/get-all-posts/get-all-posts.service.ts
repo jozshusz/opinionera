@@ -36,4 +36,12 @@ export class GetAllPostsService {
     var currentTopic = this.postsList.filter(x => x.id == sectionId)[0]['topics'].filter(y => y.id == topicId)[0];
     currentTopic['posts'].push(post);
   }
+
+  getFresh(){
+    return this.http.get(this.baseUrl + "fresh");
+  }
+
+  getPopular(){
+    return this.http.get(this.baseUrl + "popular");
+  }
 }

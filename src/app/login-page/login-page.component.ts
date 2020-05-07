@@ -46,7 +46,7 @@ export class LoginPageComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   handleResponse(data){
-    this.tokenService.handle(data.access_token, data.user_id);
+    this.tokenService.handle(data.access_token, data.user_id, data.user_status);
     this.statusService.changeAuthStatus(true);
     this.router.navigateByUrl('/profile');
   }

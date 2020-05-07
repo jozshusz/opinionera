@@ -10,6 +10,10 @@
       </span>
       <button type="button" class="btn btn-dark" (click)="newCommentButton()">Új hozzászólás</button>
       <button type="button" class="btn btn-dark" (click)="startPdfGenerate()">Pdf generálás</button>
+      <button type="button" class="btn btn-dark" *ngIf="letSelection" (click)="finishPdfGenerate()">Pdf letöltése</button>
+      <div *ngIf="emptyPdf" class="text-danger">
+        <div>Nem választottál hozzászólásokat</div>
+      </div>
       <div *ngIf="newComment || currentPost.fresh" class="input-area">
         <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
@@ -43,18 +47,86 @@
           {{ comment.user.status }}
         </div>
         <div class="col comment_text">
-          {{ comment.text }}
+          <p *ngIf="!comment.canEditComment">
+            {{ comment.text }}
+          </p>
+          <div *ngIf="comment.canEditComment">
+            <textarea type="text" rows="5" class="form-control" [(ngModel)]="newText">{{ comment.text }}</textarea>
+            <a [routerLink]="" (click)="saveEdit(comment.id)">Mentés</a>
+            <a [routerLink]="" (click)="cancelEdit(comment.id)">Mégse</a>
+          </div>
           <br>
           <div class="comment_date float-right">
             {{ comment.created_at | date: 'yyyy-MM-dd HH:mm' }}
           </div>
         </div>
         <div class="col-2 comment_upvotes">
-          <a *ngIf="userId != comment.user_id" [routerLink]="" (click)="sendLike(comment.id)">
+          <a *ngIf="userId != comment.user_id && !comment.moderated" [routerLink]="" (click)="sendLike(comment.id)">
             <p *ngIf="!comment.upvoted">Tetszik</p>
             <p *ngIf="comment.upvoted">Nem tetszik</p>
           </a>
           {{ comment.upvotes.length }}
+          <a [routerLink]="" (click)="reportComment(comment.id)" *ngIf="userId != comment.user_id">
+            Jelentés
+          </a>
+          <div *ngIf="userId == comment.user_id">
+            <a [routerLink]="" (click)="editComment(comment.id)" *ngIf="!comment.canEditComment">
+              Szerkesztés
+            </a>
+            <br>
+            <button type="button" class="btn btn-primary" data-toggle="modal" attr.data-target="#deleteOwnComment-{{comment.id}}">
+              Törlés
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="deleteOwnComment-{{comment.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Komment törlése</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeOwnDelete-{{comment.id}}">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Biztosan törlöd a hozzászólást?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Mégse</button>
+                    <button type="button" class="btn btn-primary" (click)="deleteOwnComment(comment.id)">Hozzászólás törlése</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="adminOrMod">
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" 
+          *ngIf="userId != comment.user_id" attr.data-target="#deleteConfirmModal-{{comment.id}}">
+            X
+          </button>
+          <!-- Modal -->
+          <div class="modal fade" id="deleteConfirmModal-{{comment.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Komment törlése</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton-{{comment.id}}">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Biztosan törlöd a hozzászólást?
+                  Adj indoklást:
+                  <textarea class="form-control" [(ngModel)]="explanation"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Mégse</button>
+                  <button type="button" class="btn btn-primary" (click)="deleteComment(comment.id)">Hozzászólás törlése</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

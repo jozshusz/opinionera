@@ -18,4 +18,20 @@ export class SendCommentService {
     return this.http.post(this.baseUrl + 'upvote', data);
   }
 
+  deleteComment(data){
+    return this.http.post(this.baseUrl + 'deleteComment', data);
+  }
+
+  updateComment(data){
+    return this.http.post(this.baseUrl + 'updateComment', data);
+  }
+
+  deleteOwnComment(data){
+    return this.http.post(this.baseUrl + 'deleteOwnComment', data);
+  }
+
+  reportComment(data){
+    return this.http.post(this.baseUrl + 'reportComment', data);
+  }
+
 }
