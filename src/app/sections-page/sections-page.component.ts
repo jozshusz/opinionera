@@ -10,12 +10,14 @@ import { ActivatedRoute } from '@angular/router';
 export class SectionsPageComponent implements OnInit {
 
   sections;
-  freshContainer = {
+  freshPopularContainer = {
     "comments": [],
     "posts": []
   };
 
   option = "default";
+  commentSectionTitle;
+  postSectionTitle;
 
   constructor(
     private postsService: GetAllPostsService,
@@ -31,8 +33,12 @@ export class SectionsPageComponent implements OnInit {
         this.getRecentSections();
       }else if(this.option == "fresh"){
         this.freshView();
+        this.commentSectionTitle = "Friss kommentek";
+        this.postSectionTitle = "Új posztok";
       }else if(this.option == "popular"){
         this.popularView();
+        this.commentSectionTitle = "Népszerű kommentek";
+        this.postSectionTitle = "Aktív posztok";
       }
     });
   }
@@ -51,8 +57,8 @@ export class SectionsPageComponent implements OnInit {
   freshView(): void{
     this.postsService.getFresh().subscribe(
       data => {
-        this.freshContainer["comments"] = data["comments"];
-        this.freshContainer["posts"] = data["posts"];
+        this.freshPopularContainer["comments"] = data["comments"];
+        this.freshPopularContainer["posts"] = data["posts"];
       },
       error => console.log(error)
     );
@@ -61,7 +67,8 @@ export class SectionsPageComponent implements OnInit {
   popularView(): void{
     this.postsService.getPopular().subscribe(
       data => {
-        console.log(data);
+        this.freshPopularContainer["comments"] = data["comments"];
+        this.freshPopularContainer["posts"] = data["posts"];
       },
       error => console.log(error)
     );

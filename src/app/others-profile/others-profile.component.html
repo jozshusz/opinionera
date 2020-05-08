@@ -68,7 +68,7 @@
         {{ userInfo.username }} kommentjei:
         <ul>
           <li *ngFor="let comment of userInfo.comments">
-            {{ comment.text }} {{ comment.created_at | date: 'yyyy-MM-dd HH:mm'}}
+            {{ comment.text }} {{ comment.created_at | date: 'yyyy-MM-dd HH:mm' }}
           </li>
         </ul>
       </div>

@@ -31,10 +31,10 @@
         </mat-list-item>
       </mat-list>
     </div>
-    <div *ngIf="option == 'fresh'">
+    <div *ngIf="option == 'fresh' || option == 'popular'">
       <mat-list>
-        <div mat-subheader class="section">Friss kommentek</div>
-        <mat-list-item *ngFor="let comment of freshContainer.comments; let i=index">
+        <div mat-subheader class="section">{{ commentSectionTitle }}</div>
+        <mat-list-item *ngFor="let comment of freshPopularContainer.comments; let i=index">
           <div mat-line class="container">
             <div class="row">
               <i *ngIf="comment.user.avatar === 'default'" class="fas fa-user fa-5x"></i>
@@ -42,7 +42,10 @@
                     src="http://www.forumbackend.com/img/{{comment.user.avatar}}"
                     height="50" width="50"/>
               <div class="col">
-                <a class="main_topic" [routerLink]="['/section', comment.post.topic.section_id, comment.post.topic_id, comment.post_id]">{{ comment.text }}</a>
+                <a class="main_topic" 
+                [routerLink]="['/section', comment.post.topic.section_id, comment.post.topic_id, comment.post_id]">
+                  {{ (comment.text.length > 6) ? (comment.text | slice:0:24) + '...' : (comment.text) }}
+                </a>
                 <div mat-line> {{ comment.updated_at | date: 'yyyy-MM-dd HH:mm' }} </div>
               </div>
               <div class="col">
@@ -55,12 +58,12 @@
               </div>
             </div>
           </div>
-          <mat-divider *ngIf="i != freshContainer.comments.length-1"></mat-divider>
+          <mat-divider *ngIf="i != freshPopularContainer.comments.length-1"></mat-divider>
         </mat-list-item>
       </mat-list>
       <mat-list>
-        <div mat-subheader class="section">Új posztok</div>
-        <mat-list-item *ngFor="let post of freshContainer.posts; let i=index">
+        <div mat-subheader class="section">{{ postSectionTitle }}</div>
+        <mat-list-item *ngFor="let post of freshPopularContainer.posts; let i=index">
           <div mat-line class="container">
             <div class="row">
               <i class="far fa-comment-dots fa-3x col-1"></i>
@@ -81,7 +84,7 @@
               </div>
             </div>
           </div>
-          <mat-divider *ngIf="i != freshContainer.comments.length-1"></mat-divider>
+          <mat-divider *ngIf="i != freshPopularContainer.comments.length-1"></mat-divider>
         </mat-list-item>
       </mat-list>
     </div>

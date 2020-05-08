@@ -33,7 +33,7 @@
     </div>
     <div class="comments">
       <div *ngFor="let comment of comments" class="comment row" id="{{ comment.id }}">
-        <mat-checkbox (change)="selectComment(comment.id, comment.text, comment.user.username, $event.checked)" 
+        <mat-checkbox (change)="selectComment(comment.id, comment.text, $event.checked)" 
         *ngIf="letSelection" class="example-margin"></mat-checkbox>
         <div class="col-2 comment_user">
           <i *ngIf="comment.user.avatar === 'default'" class="fas fa-user fa-5x"></i>

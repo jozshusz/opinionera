@@ -3,57 +3,19 @@
     <div class="page_title">
       <h1> Hírek </h1>
     </div>
-    <div class="card">
+    <div class="card" *ngFor="let post of newsList">
       <div class="card-header">
-        Hibajavítás
-        <div class="date">2020-04-11</div>
+        {{ post.type }}
+        <div class="date">{{ post.created_at | date: 'yyyy-MM-dd HH:mm' }}</div>
       </div>
       <div class="card-body">
-        <h1 class="card-title">Üzenetek értesítései</h1>
-        <p class="card-text">Bizonyára sokan észrevehettétek, hogy a beérkező üzeneteket nem minden esetben 
-          jelzi a rendszer, vagy hogy ha érkezik is értesítés, a bejövő üzenetek között nem található
-          új levél. Ez a mai nappal ki lett javítva, de ha bármi gond lenne esetleg, az 
-          elérhetőségek/hibabejelentés fül alatt lehetőség van felhívni rá a figyelmet. Köszönöm!
+        <h1 class="card-title">{{ post.title }}</h1>
+        <p class="card-text">
+          {{ post.text }}
         </p>
       </div>
       <div class="card-footer text-muted">
-        ma
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        Fejlesztés
-        <div class="date">2020-04-09</div>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title">A komment tetszik és/vagy hasznos</h1>
-        <p class="card-text">Mostantól bármelyik felhasználó képes tetszését/nem tetszését kinyilvánítani 
-          egy komment kapcsán, illetve hasznosnak is megjelölheti, amiről a komment tulajdonosa
-          értesítést is kap. Fontos kiemelnem, hogy a "tetszik" és a "hasznos" gombok nem 
-          azonosak, meg lehet és kell különböztetni azt, ha egy hozzászólással egyetértek (tetszik),
-          és/vagy hasznosnak találom a közösség számára (hasznos). 
-        </p>
-      </div>
-      <div class="card-footer text-muted">
-        2 napja
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header">
-        Bejelentés
-        <div class="date">2020-04-08</div>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title">Megnyitott az oldal</h1>
-        <p class="card-text">Örömmel jelentjük be, hogy április 12-én megnyitott az oldal. Természetesen
-          lesznek bővítések, fejlesztések, kiegészítések a funkcionalitásban, működésben a továbbiakban, de az
-          oldal már használható alapvető fórum tevékenységekhez. 
-          <br> Ezúton is szeretnénk üdvözölni mindenkit, és reméljük, hogy ez az utazás kölcsönösen izgalmas
-          és hasznos lesz.
-        </p>
-      </div>
-      <div class="card-footer text-muted">
-        3 napja
+        {{ post.created_at | date: 'yyyy-MM-dd HH:mm' }}
       </div>
     </div>
   </div>

@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { SendCommentService } from '../api/send-comment/send-comment.service';
 import { MessageNotificationService } from '../api/message-notification/message-notification.service';
 import * as jspdf from 'jspdf'; 
+import * as html2canvas from "html2canvas"
 
 @Component({
   selector: 'app-post-page',
@@ -29,7 +30,7 @@ export class PostPageComponent implements OnInit {
 
   userId;
   upvote = 'Tetszik';
-
+  
   letSelection = false;
   commentsToGenerate = {};
   emptyPdf = false;
@@ -158,7 +159,7 @@ export class PostPageComponent implements OnInit {
     this.letSelection = !this.letSelection;
   }
 
-  selectComment(commentId, text, username, event){
+  selectComment(commentId, text, event){
     // check if it select and not de-select
     if(event){
       this.commentsToGenerate[commentId] = text;
@@ -169,18 +170,28 @@ export class PostPageComponent implements OnInit {
   }
 
   finishPdfGenerate(){
-    let printString = "";
-    for(var index in this.commentsToGenerate) {
-      printString += document.getElementById(index).innerHTML + "<br>";
-    }
-    if(printString.length > 0){
+    if(Object.keys(this.commentsToGenerate).length > 0){
       this.emptyPdf = false;
       let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-      printString = "<h2>" + this.currentPost.name + "</h2><br>" + printString;
-      pdf.fromHTML(printString, 15, 15, {
-        width: 190
-      });
-      pdf.save('teszt.pdf');
+      let i = 0;
+      pdf.fromHTML("<h1>" + this.currentPost.name + "</h1><br>", 15, 1);
+
+      for(var index in this.commentsToGenerate) {
+        i = i + 1;
+        // if the text is too big
+        let splitText = pdf.splitTextToSize(this.commentsToGenerate[index], 150);
+
+        if(splitText.length > 1){
+          for(var j = 0; j<splitText.length; j++){
+            pdf.text(splitText[j], 15, 30 * i + (j * 7));
+          }
+        }else{
+          pdf.text(this.commentsToGenerate[index], 15, 30 * i);
+        }
+      }
+      let d = new Date();
+      let title = "forum" + d.getHours() + d.getMinutes() + d.getSeconds();
+      pdf.save(title);
     }else{
       this.emptyPdf = true;
     }
