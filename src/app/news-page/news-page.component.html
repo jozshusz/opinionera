@@ -15,7 +15,39 @@
         </p>
       </div>
       <div class="card-footer text-muted">
-        {{ post.created_at | date: 'yyyy-MM-dd HH:mm' }}
+        {{ post.user.username }}
+      </div>
+    </div>
+    <button type="button" class="btn btn-dark" (click)="newNewsButton()">Új bejegyzés</button>
+    <div class="new_post">
+      <div *ngIf="newNews" class="input-area">
+        <form [formGroup]="newsForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <mat-form-field>
+              <mat-label>Bejegyzés típusa</mat-label>
+              <mat-select formControlName="postType">
+                <mat-option *ngFor="let type of types" [value]="type.value">
+                  {{ type.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <input type="text" formControlName="postTitle" 
+              class="form-control" placeholder="Új bejegyzés címe"
+              [ngClass]="{ 'is-invalid': submitted && f.postTitle.errors }"/>
+              <div *ngIf="submitted && f.postTitle.errors" class="invalid-feedback">
+                  <div *ngIf="f.postTitle.errors.required">A cím kitöltése kötelező</div>
+              </div>
+            <textarea type="text" placeholder="A bejegyzés szövege" 
+              formControlName="text" id="postText" rows="15" 
+              class="form-control" [ngClass]="{ 'is-invalid': submitted && f.text.errors }"></textarea>
+            <div *ngIf="submitted && f.text.errors" class="invalid-feedback">
+              <div *ngIf="f.text.errors.required">Nem hozhatsz létre üres bejegyzést</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-dark">Bejegyzés létrehozása</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

@@ -4,16 +4,15 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class OtherUsersService {
+export class SearchService {
 
   private baseUrl = 'http://www.forumbackend.com/api/';
 
   constructor(
     private http: HttpClient
-    ) { }
+  ) { }
 
-  getUserWithComments(id){
-    return this.http.get(this.baseUrl + "user/" + id);
+  getSearchResults(words){
+    return this.http.get(this.baseUrl + "search/" + words);
   }
-
 }

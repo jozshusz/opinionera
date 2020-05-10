@@ -26,10 +26,9 @@ export class SectionsPageComponent implements OnInit {
 
   ngOnInit() {
     this.route.url.subscribe(url => {
-      this.option = url[0].path;
-      //console.log(this.option);
+      this.option = url[1].path;
       // check which secondary nav is selected
-      if(this.option == "sections"){
+      if(this.option == "all"){
         this.getRecentSections();
       }else if(this.option == "fresh"){
         this.freshView();
@@ -48,7 +47,6 @@ export class SectionsPageComponent implements OnInit {
       .subscribe((res: any) => {
         this.sections = res;
         this.postsService.setPostsList(this.sections);
-        
       }, error => {
         console.error(error);
       });

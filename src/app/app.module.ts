@@ -34,6 +34,8 @@ import { ResponsePasswordResetComponent } from './response-password-reset/respon
 import { OthersProfileComponent } from './others-profile/others-profile.component';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
+import { SearchPageComponent } from './search-page/search-page.component';
 
 @NgModule({
    declarations: [
@@ -56,7 +58,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
       UserProfileComponent,
       RequestPasswordResetComponent,
       ResponsePasswordResetComponent,
-      OthersProfileComponent
+      OthersProfileComponent,
+      SearchPageComponent
    ],
    imports: [
       BrowserModule,
@@ -72,7 +75,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
       FormsModule,
       ReactiveFormsModule,
       MatBadgeModule,
-      MatCheckboxModule
+      MatCheckboxModule,
+      MatSelectModule
    ],
    providers: [],
    bootstrap: [

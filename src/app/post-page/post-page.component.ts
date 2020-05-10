@@ -20,6 +20,8 @@ export class PostPageComponent implements OnInit {
   public comments;
   public newComment = false;
 
+  paginatorData = null;
+
   commentForm: FormGroup;
   submitted = false;
 
@@ -27,6 +29,7 @@ export class PostPageComponent implements OnInit {
   topicId;
   sectionId;
   postId;
+  commentUrlparam = null;
 
   userId;
   upvote = 'Tetszik';
@@ -54,6 +57,7 @@ export class PostPageComponent implements OnInit {
       this.topicId = paramMap.get('topicId');
       this.sectionId = paramMap.get('sectionId');
       this.postId = paramMap.get('postId');
+      this.commentUrlparam = paramMap.get('comment');
 
       this.currentPost = this.postsService.getPost(this.sectionId, this.topicId, this.postId);
 
@@ -65,7 +69,7 @@ export class PostPageComponent implements OnInit {
           this.adminOrMod = true;
         }
       }
-
+      
       this.initComments(this.postId);
 
       this.commentForm = this.formBuilder.group({
@@ -79,7 +83,8 @@ export class PostPageComponent implements OnInit {
   initComments(postId){
     this.commentService.getCommentsByPostId(postId)
       .subscribe((res: any) => {
-        this.comments = res;
+        this.paginatorData = res;
+        this.comments = res["data"];
         // check if a comment is upvoted by the current user
         for (var i = 0; i < this.comments.length; i++) {
           for (var j = 0; j < this.comments[i].upvotes.length; j++) {
@@ -88,6 +93,11 @@ export class PostPageComponent implements OnInit {
               break;
             }
           }
+        }
+        
+        // check if user navigated from last comment link
+        if(this.commentUrlparam && this.paginatorData["current_page"] != this.paginatorData["last_page"]){
+          this.byPageNumber(this.paginatorData["last_page"]);
         }
       }, error => {
         console.error(error);
@@ -257,6 +267,38 @@ export class PostPageComponent implements OnInit {
       'commentId': commentId
     }).subscribe(
       data => console.log(data),
+      error => console.log(error)
+    );
+  }
+
+  // paginator 
+  prevPage() {
+    this.commentService.getCommentsByUrl(this.paginatorData.prev_page_url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.comments = data["data"];
+      },
+      error => console.log(error)
+    );
+  }
+
+  nextPage() {
+    this.commentService.getCommentsByUrl(this.paginatorData.next_page_url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.comments = data["data"];
+      },
+      error => console.log(error)
+    );
+  }
+
+  byPageNumber(pageNumber) {
+    let url = this.paginatorData["path"] + "?page=" + pageNumber;
+    this.commentService.getCommentsByUrl(url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.comments = data["data"];
+      },
       error => console.log(error)
     );
   }

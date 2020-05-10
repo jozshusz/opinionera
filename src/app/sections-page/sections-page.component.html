@@ -3,7 +3,7 @@
     <div class="page_title">
       <h1> Témák </h1>
     </div>
-    <div *ngIf="option == 'sections'">
+    <div *ngIf="option == 'all'">
       <mat-list *ngFor="let section of sections">
         <div mat-subheader class="section">{{ section.name }}</div>
         <mat-list-item *ngFor="let topic of section.topics; let i=index">

@@ -17,14 +17,16 @@ import { AfterLoginService } from './api/login/after-login.service';
 import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
 import { ResponsePasswordResetComponent } from './response-password-reset/response-password-reset.component';
 import { OthersProfileComponent } from './others-profile/others-profile.component';
+import { SearchPageComponent } from './search-page/search-page.component';
 
 
 const routes: Routes = [
   //the sidebar stays in place
-  { path: '', redirectTo: '/sections(sidebar:topics)', pathMatch: 'full'},
-  { path: 'sections', redirectTo: '/sections(sidebar:topics)', pathMatch: 'full'},
-  { path: 'news', redirectTo: '/news(sidebar:news)', pathMatch: 'full'},
-  { path: 'rules', redirectTo: '/rules(sidebar:rules)', pathMatch: 'full'},
+  { path: '', redirectTo: '/sections/all(sidebar:topics)', pathMatch: 'full'},
+  { path: 'sections', redirectTo: '/sections/all(sidebar:topics)', pathMatch: 'full'},
+  { path: 'search/:keyword', redirectTo: '/search/:keyword(sidebar:topics)', pathMatch: 'full'},
+  { path: 'news', redirectTo: '/news/all(sidebar:news)', pathMatch: 'full'},
+  { path: 'rules', redirectTo: '/rules/all(sidebar:rules)', pathMatch: 'full'},
   { path: 'login', redirectTo: '/login(sidebar:login)', pathMatch: 'full'},
   { path: 'signup', redirectTo: '/signup(sidebar:login)', pathMatch: 'full'},
   { path: 'profile', redirectTo: '/profile(sidebar:login)', pathMatch: 'full'},
@@ -36,10 +38,18 @@ const routes: Routes = [
 
   //basic routes to components
   { path: 'sections', component: SectionsPageComponent },
-  { path: 'fresh', component: SectionsPageComponent },
-  { path: 'popular', component: SectionsPageComponent },
+  { path: 'sections/all', component: SectionsPageComponent },
+  { path: 'sections/fresh', component: SectionsPageComponent },
+  { path: 'sections/popular', component: SectionsPageComponent },
+  { path: 'search/:keyword', component: SearchPageComponent },
   { path: 'news', component: NewsPageComponent },
+  { path: 'news/all', component: NewsPageComponent },
+  { path: 'news/announce', component: NewsPageComponent },
+  { path: 'news/repairs', component: NewsPageComponent },
   { path: 'rules', component: RulesPageComponent },
+  { path: 'rules/all', component: RulesPageComponent },
+  { path: 'rules/faqs', component: RulesPageComponent },
+  { path: 'rules/contact', component: RulesPageComponent },
   { path: 'login', component: LoginPageComponent, canActivate: [BeforeLoginService] },
   { path: 'signup', component: SignupComponent, canActivate: [BeforeLoginService] },
   { path: 'profile', component: UserProfileComponent, canActivate: [AfterLoginService]  },
@@ -77,7 +87,7 @@ const routes: Routes = [
   },
 
   // IF no match
-  { path: '**', redirectTo: '/sections(sidebar:topics)' },
+  { path: '**', redirectTo: '/sections/all(sidebar:topics)' },
 
 ];
 

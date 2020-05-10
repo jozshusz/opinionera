@@ -14,4 +14,8 @@ export class CreateContentService {
     return this.http.post(this.baseUrl + 'createPost', data);
   }
 
+  createNews(data) {
+    return this.http.post(this.baseUrl + 'createNews', data);
+  }
+
 }

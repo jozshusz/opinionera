@@ -1,0 +1,62 @@
+<div>
+  <div class="search_container">
+    <div class="page_title">
+      <h1> Keresés </h1>
+    </div>
+    <mat-list>
+      <div mat-subheader class="section">Komment találatok</div>
+      <mat-list-item *ngFor="let comment of resultComments; let i=index">
+        <div mat-line class="container">
+          <div class="row">
+            <i *ngIf="comment.user.avatar === 'default'" class="fas fa-user fa-5x"></i>
+            <img *ngIf="comment.user.avatar !== 'default'" 
+                  src="http://www.forumbackend.com/img/{{comment.user.avatar}}"
+                  height="50" width="50"/>
+            <div class="col">
+              <a class="main_topic" 
+              [routerLink]="['/section', comment.post.topic.section_id, comment.post.topic_id, comment.post_id]">
+                {{ (comment.text.length > 6) ? (comment.text | slice:0:24) + '...' : (comment.text) }}
+              </a>
+              <div mat-line> {{ comment.updated_at | date: 'yyyy-MM-dd HH:mm' }} </div>
+            </div>
+            <div class="col">
+              <div mat-line> 
+                <a [routerLink]="['/profile', comment.user_id]">
+                  {{ comment.user.username }}
+                  {{ comment.user.status }}
+                </a> 
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-divider *ngIf="i != resultComments.length-1"></mat-divider>
+      </mat-list-item>
+    </mat-list>
+    <mat-list>
+      <div mat-subheader class="section">Poszt találatok</div>
+      <mat-list-item *ngFor="let post of resultPosts; let i=index">
+        <div mat-line class="container">
+          <div class="row">
+            <i class="far fa-comment-dots fa-3x col-1"></i>
+            <div class="col">
+              <a class="main_topic" 
+              [routerLink]="['/section', post.topic.section_id, post.topic_id, post.id]">
+                {{ post.name }}
+              </a>
+              <div mat-line> {{ post.description }} </div>
+            </div>
+            <div class="col">
+              <div mat-line> 
+                <a [routerLink]="['/profile', post.user_id]">
+                  {{ post.user.username }}
+                  <div mat-line> {{ post.created_at | date: 'yyyy-MM-dd HH:mm' }} </div>
+                </a> 
+              </div>
+            </div>
+          </div>
+        </div>
+        <mat-divider *ngIf="i != resultPosts.length-1"></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

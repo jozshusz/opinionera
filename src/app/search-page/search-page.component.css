@@ -1,0 +1,28 @@
+.page_title{
+    padding-top: 2%;
+    text-decoration: underline;
+}
+
+.search_container{
+    width: 60%;
+    margin-left: 20%;
+    margin-bottom: 5%;
+}
+
+mat-list{
+    border-radius: 15px;
+    box-shadow: 1px 1px 5px #888888;
+    margin-bottom: 4%;
+    background-color: white;
+}
+
+.section{
+    font-size: 26px;
+    color: white;
+    background-color: #006079;
+    border-radius: 15px 15px 0px 0px;
+}
+
+mat-list-item{
+    padding-top: 50px;
+}
