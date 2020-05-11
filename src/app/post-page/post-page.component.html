@@ -3,14 +3,16 @@
     <div class="page_title">
       <h1> {{ currentPost.name }} </h1>
     </div>
-    {{ currentPost.description }}
+    <div class="post_description">
+      {{ currentPost.description }}
+    </div>
     <div *ngIf="isLoggedIn" class="new_comment">
       <span class="text-success" *ngIf="currentPost.fresh">
         Sikeres téma létrehozás! Írj egy kommentet, hogy elkezdődjön a beszélgetés!
       </span>
-      <button type="button" class="btn btn-dark" (click)="newCommentButton()">Új hozzászólás</button>
-      <button type="button" class="btn btn-dark" (click)="startPdfGenerate()">Pdf generálás</button>
-      <button type="button" class="btn btn-dark" *ngIf="letSelection" (click)="finishPdfGenerate()">Pdf letöltése</button>
+      <button type="button" class="btn btn-primary" (click)="newCommentButton()">Új hozzászólás</button>
+      <button type="button" class="btn btn-primary" (click)="startPdfGenerate()">Pdf generálás</button>
+      <button type="button" class="btn btn-primary" *ngIf="letSelection" (click)="finishPdfGenerate()">Pdf letöltése</button>
       <div *ngIf="emptyPdf" class="text-danger">
         <div>Nem választottál hozzászólásokat</div>
       </div>
@@ -26,28 +28,36 @@
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-dark">Hozzászólás elküldése</button>
+            <button class="btn btn-primary">Hozzászólás elküldése</button>
           </div>
         </form>
+        <div *ngIf="tooManyChar" class="text-danger">
+          <div>300 karakternél nagyobb hozzászólást nem küldhetsz</div>
+        </div>
       </div>
     </div>
     <div class="comments">
       <div *ngFor="let comment of comments" class="comment row" id="{{ comment.id }}">
         <mat-checkbox (change)="selectComment(comment.id, comment.text, $event.checked)" 
         *ngIf="letSelection" class="example-margin"></mat-checkbox>
-        <div class="col-2 comment_user">
+        <div class="col-2 comment_user my-auto text-center">
+          <div>
+            <h2 class="username_h2">
+              <a [routerLink]="['/profile', comment.user.id]">{{ comment.user.username }}</a>
+            </h2>
+            <span class="text-muted">{{ comment.user.status }}</span>
+          </div>
           <i *ngIf="comment.user.avatar === 'default'" class="fas fa-user fa-5x"></i>
           <img *ngIf="comment.user.avatar !== 'default'" 
                 src="http://www.forumbackend.com/img/{{comment.user.avatar}}"
                 height="50" width="50"/>
-          <h2>
-            <a [routerLink]="['/profile', comment.user.id]">{{ comment.user.username }}</a>
-          </h2>
+          <span class="text-muted">Kommentek</span>
+          <br>
           {{ comment.user.comment_numbers }}
-          {{ comment.user.status }}
         </div>
-        <div class="col comment_text">
-          <p *ngIf="!comment.canEditComment">
+        <div class="col-7 comment_text my-auto">
+          <span *ngIf="userId == comment.user_id" class="text-muted">Saját</span>
+          <p *ngIf="!comment.canEditComment" class="comment_text_p">
             {{ comment.text }}
           </p>
           <div *ngIf="comment.canEditComment">
@@ -55,26 +65,35 @@
             <a [routerLink]="" (click)="saveEdit(comment.id)">Mentés</a>
             <a [routerLink]="" (click)="cancelEdit(comment.id)">Mégse</a>
           </div>
+          <div *ngIf="tooManyEdit" class="text-danger">
+            <div>300 karakternél nem lehet hosszabb a hozzászólás</div>
+          </div>
           <br>
           <div class="comment_date float-right">
             {{ comment.created_at | date: 'yyyy-MM-dd HH:mm' }}
           </div>
         </div>
-        <div class="col-2 comment_upvotes">
-          <a *ngIf="userId != comment.user_id && !comment.moderated" [routerLink]="" (click)="sendLike(comment.id)">
-            <p *ngIf="!comment.upvoted">Tetszik</p>
-            <p *ngIf="comment.upvoted">Nem tetszik</p>
-          </a>
-          {{ comment.upvotes.length }}
-          <a [routerLink]="" (click)="reportComment(comment.id)" *ngIf="userId != comment.user_id">
+        <div class="col-2 comment_upvotes my-auto text-center">
+          <div class="upvote_container">
+            <a *ngIf="userId != comment.user_id && !comment.moderated" [routerLink]="" (click)="sendLike(comment.id)">
+              <!--<p *ngIf="!comment.upvoted">Tetszik</p>
+              <p *ngIf="comment.upvoted">Nem tetszik</p>-->
+              <i *ngIf="!comment.upvoted" class="far fa-thumbs-up fa-1x"></i>
+              <i *ngIf="comment.upvoted" class="fas fa-thumbs-up fa-1x"></i>
+            </a>
+            {{ comment.upvotes_count }}
+          </div>
+          <br>
+          <a [routerLink]="" (click)="reportComment(comment.id)" *ngIf="userId != comment.user_id && !comment.reported">
             Jelentés
           </a>
+          <p *ngIf="comment.reported">Jelentve!</p>
           <div *ngIf="userId == comment.user_id">
             <a [routerLink]="" (click)="editComment(comment.id)" *ngIf="!comment.canEditComment">
               Szerkesztés
             </a>
             <br>
-            <button type="button" class="btn btn-primary" data-toggle="modal" attr.data-target="#deleteOwnComment-{{comment.id}}">
+            <button type="button" class="btn btn-link" data-toggle="modal" attr.data-target="#deleteOwnComment-{{comment.id}}">
               Törlés
             </button>
             <!-- Modal -->
@@ -101,9 +120,9 @@
         </div>
         <div *ngIf="adminOrMod">
           <!-- Button trigger modal -->
-          <button type="button" class="btn btn-primary" data-toggle="modal" 
+          <button type="button" class="btn btn-light" data-toggle="modal" 
           *ngIf="userId != comment.user_id" attr.data-target="#deleteConfirmModal-{{comment.id}}">
-            X
+            x
           </button>
           <!-- Modal -->
           <div class="modal fade" id="deleteConfirmModal-{{comment.id}}" tabindex="-1" role="dialog" aria-hidden="true">

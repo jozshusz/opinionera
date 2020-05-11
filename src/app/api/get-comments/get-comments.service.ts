@@ -19,4 +19,8 @@ export class GetCommentsService {
     return this.http.get(url);
   }
 
+  getPageOfComment(postId, commentId){
+    return this.http.get(this.baseUrl + "pageOfComment/" + postId + "/" + commentId);
+  }
+
 }

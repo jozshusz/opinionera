@@ -10,7 +10,9 @@
         <li *ngFor="let notification of userInfo.notifications" [ngClass]="{'newNotificationClass': !notification.opened}">
           <a class="notificationsClass" [routerLink]="" (click)="toggleMsgNoti(notification, true)">{{ notification.message }}</a>
           <div *ngIf="notification.show">
-            {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+            <a [routerLink]="['/section', notification.comment.post.topic.section_id, notification.comment.post.topic_id, notification.comment.post_id, {comment: notification.comment.id}]">
+              {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+            </a>
           </div>
         </li>
       </ol>

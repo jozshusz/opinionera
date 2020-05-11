@@ -8,24 +8,30 @@
       <mat-list-item *ngFor="let comment of resultComments; let i=index">
         <div mat-line class="container">
           <div class="row">
-            <i *ngIf="comment.user.avatar === 'default'" class="fas fa-user fa-5x"></i>
+            <i *ngIf="comment.user.avatar === 'default'" class="col-1 fas fa-user fa-3x my-auto"></i>
             <img *ngIf="comment.user.avatar !== 'default'" 
                   src="http://www.forumbackend.com/img/{{comment.user.avatar}}"
                   height="50" width="50"/>
-            <div class="col">
+            <div class="col-5 my-auto">
+              <span class="text-muted">Poszt: {{ comment.post.name }}</span>
+              <br>
               <a class="main_topic" 
-              [routerLink]="['/section', comment.post.topic.section_id, comment.post.topic_id, comment.post_id]">
+              [routerLink]="['/section', comment.post.topic.section_id, comment.post.topic_id, comment.post_id, {comment: comment.id}]">
                 {{ (comment.text.length > 6) ? (comment.text | slice:0:24) + '...' : (comment.text) }}
               </a>
-              <div mat-line> {{ comment.updated_at | date: 'yyyy-MM-dd HH:mm' }} </div>
             </div>
-            <div class="col">
+            <div class="col my-auto">
+              <span class="text-muted">Írta:</span>
               <div mat-line> 
                 <a [routerLink]="['/profile', comment.user_id]">
                   {{ comment.user.username }}
                   {{ comment.user.status }}
                 </a> 
               </div>
+            </div>
+            <div class="col my-auto">
+              <span class="text-muted">Dátum:</span>
+              <div mat-line> {{ comment.updated_at | date: 'yyyy-MM-dd HH:mm' }} </div>
             </div>
           </div>
         </div>
@@ -37,15 +43,19 @@
       <mat-list-item *ngFor="let post of resultPosts; let i=index">
         <div mat-line class="container">
           <div class="row">
-            <i class="far fa-comment-dots fa-3x col-1"></i>
-            <div class="col">
+            <i class="far fa-comment-dots fa-3x col-1 my-auto"></i>
+            <div class="col-5 my-auto">
               <a class="main_topic" 
               [routerLink]="['/section', post.topic.section_id, post.topic_id, post.id]">
                 {{ post.name }}
               </a>
               <div mat-line> {{ post.description }} </div>
             </div>
-            <div class="col">
+            <div class="col my-auto text-center">
+              <div mat-line> {{ post.comments_count }} <br> komment </div>
+            </div>
+            <div class="col my-auto">
+              <span class="text-muted">Indította:</span>
               <div mat-line> 
                 <a [routerLink]="['/profile', post.user_id]">
                   {{ post.user.username }}

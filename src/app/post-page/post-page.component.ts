@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { GetAllPostsService } from '../api/get-all-posts/get-all-posts.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TokenService } from '../api/token/token.service';
 import { GetCommentsService } from '../api/get-comments/get-comments.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -20,16 +20,20 @@ export class PostPageComponent implements OnInit {
   public comments;
   public newComment = false;
 
+  notScrolled = true;
   paginatorData = null;
 
   commentForm: FormGroup;
   submitted = false;
+  tooManyChar = false;
+  tooManyEdit = false;
 
   currentPost;
   topicId;
   sectionId;
   postId;
-  commentUrlparam = null;
+  lastCommentUrlparam = null;
+  searchedCommentUrlparam = null;
 
   userId;
   upvote = 'Tetszik';
@@ -49,7 +53,8 @@ export class PostPageComponent implements OnInit {
     private tokenService: TokenService,
     private commentService: GetCommentsService,
     private sendCommentService: SendCommentService,
-    private msgNotificationService: MessageNotificationService
+    private msgNotificationService: MessageNotificationService,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -57,7 +62,8 @@ export class PostPageComponent implements OnInit {
       this.topicId = paramMap.get('topicId');
       this.sectionId = paramMap.get('sectionId');
       this.postId = paramMap.get('postId');
-      this.commentUrlparam = paramMap.get('comment');
+      this.lastCommentUrlparam = paramMap.get('lastComment');
+      this.searchedCommentUrlparam = paramMap.get('comment');
 
       this.currentPost = this.postsService.getPost(this.sectionId, this.topicId, this.postId);
 
@@ -84,49 +90,60 @@ export class PostPageComponent implements OnInit {
     this.commentService.getCommentsByPostId(postId)
       .subscribe((res: any) => {
         this.paginatorData = res;
-        this.comments = res["data"];
-        // check if a comment is upvoted by the current user
-        for (var i = 0; i < this.comments.length; i++) {
-          for (var j = 0; j < this.comments[i].upvotes.length; j++) {
-            if(this.comments[i].upvotes[j]['user_id'] == this.userId){
-              this.comments[i]['upvoted'] = true;
-              break;
-            }
-          }
-        }
-        
+
         // check if user navigated from last comment link
-        if(this.commentUrlparam && this.paginatorData["current_page"] != this.paginatorData["last_page"]){
+        if(this.lastCommentUrlparam && this.paginatorData["current_page"] != this.paginatorData["last_page"]){
           this.byPageNumber(this.paginatorData["last_page"]);
+        }else if(this.searchedCommentUrlparam){
+          this.searchedComment();
+        }else{
+          this.comments = res["data"];
+          this.checkUpvotedStatus();
         }
       }, error => {
         console.error(error);
       });
   }
 
+  checkUpvotedStatus(){
+    // check if a comment is upvoted by the current user
+    for (var i = 0; i < this.comments.length; i++) {
+      for (var j = 0; j < this.comments[i].upvotes.length; j++) {
+        if(this.comments[i].upvotes[j]['user_id'] == this.userId){
+          this.comments[i]['upvoted'] = true;
+          break;
+        }
+      }
+    }
+  }
+
   newCommentButton(){
-    this.newComment = true;
+    this.newComment = !this.newComment;
+    if(this.currentPost["fresh"]){
+      this.currentPost["fresh"] = false;
+      this.newComment = false;
+    }
   }
 
   onSubmit(){
     this.submitted = true;
-    this.commentForm.controls['token'].setValue(this.tokenService.get());
-    this.commentForm.controls['post_id'].setValue(this.postId);
+    this.commentForm.controls["token"].setValue(this.tokenService.get());
+    this.commentForm.controls["post_id"].setValue(this.postId);
 
-    this.sendCommentService.sendComment(this.commentForm.value).subscribe(
-      data => this.handleResponse(data),
-      error => console.log(error)
-    );
+    if(this.commentForm.value["text"].length < 301){
+      this.sendCommentService.sendComment(this.commentForm.value).subscribe(
+        data => this.handleResponse(data),
+        error => console.log(error)
+      );
+    }else{
+      this.tooManyChar = true;
+    }
+
   }
 
   get f() { return this.commentForm.controls; }
 
   handleResponse(data): void{
-    // make new comment appear in frontend
-    this.comments.push(data);
-    this.comments.filter(x => x.id == data.id)[0].upvotes = [];
-    this.newComment = false;
-
     // send notifications to people following this post
     this.msgNotificationService.notifyFollowers({
       'token': this.tokenService.get(),
@@ -146,9 +163,53 @@ export class PostPageComponent implements OnInit {
       data => console.log(data),
       error => console.log(error)
     );
+
+    if(this.comments.length > 11){
+      this.commentService.getPageOfComment(this.postId, data.id).subscribe(
+        message => {
+          this.byPageNumber(message);
+          
+          // scroll down to new comment
+          window.scroll(0, document.body.scrollHeight);
+        },
+        error => console.log(error)
+      );
+    }else{
+      data["upvotes_count"] = 0;
+
+      // make new comment appear in frontend
+      this.comments.push(data);
+      this.comments.filter(x => x.id == data.id)[0].upvotes = [];
+      if(this.currentPost["fresh"]){
+        this.currentPost["fresh"] = false;
+      }
+      
+      this.incrementAllUserComments(data.user.comment_numbers);
+
+      // scroll down to new comment
+      window.scroll(0, document.body.scrollHeight);
+    }
+    
+    this.tooManyChar = false;
+    this.submitted = false;
+    this.newComment = false;
+    this.commentForm.controls["text"].setValue("");
+  }
+
+  incrementAllUserComments(commentNumbers){
+    for (var i = 0; i < this.comments.length; i++) {
+      if(this.comments[i].user.id == this.userId){
+        this.comments[i].user.comment_numbers = commentNumbers;
+      }
+    }
   }
 
   sendLike(commentId){
+    // if the user is not logged in, then navigate to login page
+    if(!this.isLoggedIn){
+      this.router.navigateByUrl('/login');
+    }
+
     this.sendCommentService.upvoteComment({
       'token': this.tokenService.get(),
       'commentId': commentId
@@ -157,8 +218,10 @@ export class PostPageComponent implements OnInit {
         let isUpvoted = this.comments.filter(x => x.id == commentId)[0].upvoted;
         if(isUpvoted){
           this.comments.filter(x => x.id == commentId)[0].upvoted = false;
+          this.comments.filter(x => x.id == commentId)[0].upvotes_count -= 1;
         }else{
           this.comments.filter(x => x.id == commentId)[0].upvoted = true;
+          this.comments.filter(x => x.id == commentId)[0].upvotes_count += 1;
         }
       },
       error => console.log(error)
@@ -234,17 +297,22 @@ export class PostPageComponent implements OnInit {
   }
 
   saveEdit(commentId){
-    this.sendCommentService.updateComment({
-      'token': this.tokenService.get(),
-      'commentId': commentId,
-      'commentText': this.newText
-    }).subscribe(
-      data => {
-        this.comments.filter(x => x.id == commentId)[0]['text'] = this.newText;
-        this.comments.filter(x => x.id == commentId)[0]['canEditComment'] = false;
-      },
-      error => console.log(error)
-    );
+    if(this.newText.length < 301){
+      this.tooManyEdit = false;
+      this.sendCommentService.updateComment({
+        'token': this.tokenService.get(),
+        'commentId': commentId,
+        'commentText': this.newText
+      }).subscribe(
+        data => {
+          this.comments.filter(x => x.id == commentId)[0]['text'] = this.newText;
+          this.comments.filter(x => x.id == commentId)[0]['canEditComment'] = false;
+        },
+        error => console.log(error)
+      );
+    }else{
+      this.tooManyEdit = true;
+    }
   }
 
   deleteOwnComment(commentId){
@@ -262,6 +330,13 @@ export class PostPageComponent implements OnInit {
   }
 
   reportComment(commentId){
+    // if the user is not logged in, then navigate to login page
+    if(!this.isLoggedIn){
+      this.router.navigateByUrl("/login");
+    }
+
+    this.comments.filter(x => x.id == commentId)[0]["reported"] = true;
+
     this.sendCommentService.reportComment({
       'token': this.tokenService.get(),
       'commentId': commentId
@@ -277,6 +352,7 @@ export class PostPageComponent implements OnInit {
       data => {
         this.paginatorData = data;
         this.comments = data["data"];
+        this.checkUpvotedStatus();
       },
       error => console.log(error)
     );
@@ -287,6 +363,7 @@ export class PostPageComponent implements OnInit {
       data => {
         this.paginatorData = data;
         this.comments = data["data"];
+        this.checkUpvotedStatus();
       },
       error => console.log(error)
     );
@@ -298,9 +375,30 @@ export class PostPageComponent implements OnInit {
       data => {
         this.paginatorData = data;
         this.comments = data["data"];
+        this.checkUpvotedStatus();
       },
       error => console.log(error)
     );
+  }
+
+  searchedComment(){
+    this.commentService.getPageOfComment(this.postId, this.searchedCommentUrlparam).subscribe(
+      data => {
+        this.byPageNumber(data);
+      },
+      error => console.log(error)
+    );
+  }
+
+  // scroll only if the view is finished
+  ngAfterViewChecked(){
+    if(this.searchedCommentUrlparam && document.getElementById(this.searchedCommentUrlparam) && this.notScrolled){
+      document.getElementById(this.searchedCommentUrlparam).scrollIntoView({ block: 'center',  behavior: 'smooth' });
+      this.notScrolled = false;
+    }else if(this.lastCommentUrlparam && document.getElementById(this.lastCommentUrlparam) && this.notScrolled){
+      document.getElementById(this.lastCommentUrlparam).scrollIntoView({ block: 'center',  behavior: 'smooth' });
+      this.notScrolled = false;
+    }
   }
 
 }

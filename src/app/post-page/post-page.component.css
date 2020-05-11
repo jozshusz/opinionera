@@ -14,6 +14,10 @@
 
 /* base */
 
+.post_description{
+    margin-bottom: 2%;
+}
+
 .comment{
     margin-top: 1%;
     background-color: white;
@@ -27,10 +31,27 @@
     color: #b6b6b6;
 }
 
-.btn-dark{
-    margin: 1%;
+.btn-primary{
+    margin: 1% 1% 1% 0;
 }
 
 .paginator{
     margin-top: 2%;
+}
+
+.text-muted{
+    font-size: 10px;
+}
+
+.username_h2{
+    margin-bottom: 0;
+}
+
+.upvote_container{
+    border: 3px solid #f0f0f0;
+}
+
+.comment_text_p{
+    white-space: pre-line; 
+    word-wrap: break-word;
 }

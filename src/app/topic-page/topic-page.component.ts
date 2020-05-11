@@ -58,7 +58,7 @@ export class TopicPageComponent implements OnInit {
   get f() { return this.postForm.controls; }
 
   newPostButton(){
-    this.newPost = true;
+    this.newPost = !this.newPost;
   }
 
   onSubmit(){
