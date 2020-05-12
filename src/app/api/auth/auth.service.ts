@@ -30,4 +30,8 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'me', data);
   }
 
+  getCurrentUsersComment(data){
+    return this.http.post(this.baseUrl + 'getMyComments', data);
+  }
+
 }

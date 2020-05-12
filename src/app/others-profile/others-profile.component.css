@@ -11,5 +11,47 @@
 
 .user_info_container{
     background-color: white;
+    border-radius: 15px;
+    box-shadow: 1px 1px 5px #888888;
+}
+
+.user_info_row{
+    border-radius: 15px 15px 0px 0px;
+    background-color: #006079;
+    color: white;
     padding: 2%;
+    font-size: 1.5vw;
+}
+
+.mat-list{
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+ul{
+    list-style-type: circle;
+}
+
+li{
+    margin-bottom: 5%;
+}
+
+.text_little{
+    font-size: 10px;
+}
+
+.users_comments{
+    padding: 2%;
+}
+
+.btn-primary{
+    margin-bottom: 3%;
+}
+
+.form-control{
+    margin-bottom: 2%;
+}
+
+.send_msg_button{
+    margin-bottom: 0;
 }

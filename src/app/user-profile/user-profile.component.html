@@ -4,80 +4,108 @@
       <h1> Saját profil </h1>
     </div>
     <h2 *ngIf="userInfo">Üdvözlünk <b>{{ userInfo.username }}</b>!</h2>
-    <div *ngIf="userInfo" class="notifications container">
-      <h2>Értesítések</h2>
-      <ol>
-        <li *ngFor="let notification of userInfo.notifications" [ngClass]="{'newNotificationClass': !notification.opened}">
-          <a class="notificationsClass" [routerLink]="" (click)="toggleMsgNoti(notification, true)">{{ notification.message }}</a>
-          <div *ngIf="notification.show">
-            <a [routerLink]="['/section', notification.comment.post.topic.section_id, notification.comment.post.topic_id, notification.comment.post_id, {comment: notification.comment.id}]">
-              {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
-            </a>
-          </div>
-        </li>
-      </ol>
-    </div>
-    <br>
-    <div *ngIf="userInfo" class="messages container">
-      <h2>Üzenetek</h2>
-      <h3>Beérkezett üzenetek</h3>
-      <ol>
-        <li *ngFor="let receivedMsg of userInfo.received" [ngClass]="{'newNotificationClass': !receivedMsg.opened}">
-          <a class="receivedMessagesClass" [routerLink]="" (click)="toggleMsgNoti(receivedMsg, true)">Tárgy: {{ receivedMsg.header }}</a>
-          <br>
-          <div *ngIf="receivedMsg.show">
-            Küldte: {{ receivedMsg.sender_user_id }}
-            <br>
-            Üzenet: {{ receivedMsg.body }}
-            <br>
-            Dátum: {{ receivedMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}
-            <br>
-          </div>
-        </li>
-      </ol>
-      <h3>Elküldött üzenetek</h3>
-      <ol>
-        <li *ngFor="let sentMsg of userInfo.sent">
-          <a class="sentMessagesClass" [routerLink]="" (click)="toggleMsgNoti(sentMsg, false)">Tárgy: {{ sentMsg.header }}</a>
-          <br>
-          <div *ngIf="sentMsg.show">
-            Címzett: {{ sentMsg.receiver_user_id }}
-            <br>
-            Üzenet: {{ sentMsg.body }}
-            <br>
-            Dátum: {{ sentMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}
-            <br>
-          </div>
-          
-        </li>
-      </ol>
-    </div>
-    <br>
-    <div *ngIf="userInfo" class="container user_info_container">
+    <div *ngIf="userInfo" class="section_cont container">
       <h2>Információk</h2>
-      <i *ngIf="userInfo.avatar === 'default'" class="fas fa-user fa-5x"></i>
-      <img *ngIf="userInfo.avatar !== 'default'" 
-            src="http://www.forumbackend.com/img/{{userInfo.avatar}}"
-            height="50" width="50"/>
-      <div class="user_infos">
-        <ul>
-          <li>
-            {{ userInfo.status }}
-          </li>
-          <li>
-            {{ userInfo.rank }}
-          </li>
-          <li>
-            upvotes: {{ userInfo.upvotes }}
-          </li>
-        </ul>
-        Tölts fel egy avatart (maximum 1MB)
-        <br>
-        <input #selectFileInput type="file" (change)="onFileSelected($event)">
-        <span class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</span>
-        <span class="text-success" *ngIf="responseMessage">{{ responseMessage }}</span>
-        <button type="button" (click)="onUpload()">Feltöltés</button>
+      <div class="row">
+        <div class="col-7 user_info_container my-auto">
+          <div class="user_infos">
+            <i *ngIf="userInfo.avatar === 'default'" class="fas fa-user fa-5x"></i>
+            <img *ngIf="userInfo.avatar !== 'default'" 
+                  src="http://www.forumbackend.com/img/{{userInfo.avatar}}"
+                  height="50" width="50"/>
+            <div class="upload_avatar">
+              <p class="text_little">Tölts fel egy avatart <br> (maximum 1MB)</p>
+              <input #selectFileInput type="file" (change)="onFileSelected($event)">
+              <div>
+                <span class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</span>
+                <span class="text-success" *ngIf="responseMessage">{{ responseMessage }}</span>
+              </div>
+              <button type="button" (click)="onUpload()" class="btn btn-primary">Feltöltés</button>
+            </div>
+          </div>
+        </div>
+        <div class="col my-auto user_info_list">
+          <ul>
+            <li>
+              Név: {{ userInfo.username }}
+            </li>
+            <li>
+              Email: {{ userInfo.email }}
+            </li>
+          </ul>
+          <ul>
+            <li>
+              Kommentek száma: {{ userInfo.comment_numbers }}
+            </li>
+            <li>
+              Státusz: {{ userInfo.status }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
+      <div *ngIf="userInfo" class="section_cont notifications">
+        <h2>Értesítések</h2>
+        <mat-list>
+          <mat-list-item *ngFor="let notification of displayNotification" [ngClass]="{'newNotificationClass': !notification.opened}">
+              <a mat-line class="notificationsClass" [routerLink]="" (click)="toggleMsgNoti(notification, true)">
+                {{ notification.message }} - {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+              </a>
+              <div *ngIf="notification.show" mat-line>
+                <a [routerLink]="['/section', notification.comment.post.topic.section_id, notification.comment.post.topic_id, notification.comment.post_id, {comment: notification.comment.id}]">
+                  Megtekintés
+                </a>
+              </div>
+              <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+        <a *ngIf="!allNotifShowing" [routerLink]="" (click)="showMoreNotification()">
+          Összes mutatása
+        </a>
+        <a *ngIf="allNotifShowing" [routerLink]="" (click)="showLessNotification()">
+          Kevesebb mutatása
+        </a>
+      </div>
+      <div *ngIf="userInfo" class="section_cont messages">
+        <h2>Üzenetek</h2>
+        <h3>Beérkezett üzenetek</h3>
+        <mat-list>
+          <mat-list-item  *ngFor="let receivedMsg of userInfo.received" [ngClass]="{'newNotificationClass': !receivedMsg.opened}">
+            <a mat-line class="receivedMessagesClass" [routerLink]="" (click)="toggleMsgNoti(receivedMsg, true)">Tárgy: {{ receivedMsg.header }}</a>
+            <div mat-line *ngIf="receivedMsg.show" class="message_display">
+              <p mat-line><b>Küldte:</b> {{ receivedMsg.sender.username }}</p>
+              <p mat-line class="long_text"><b>Üzenet:</b> {{ receivedMsg.body }}</p>
+              <p mat-line><b>Dátum:</b> {{ receivedMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}</p>
+            </div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+        <h3>Elküldött üzenetek</h3>
+        <mat-list>
+          <mat-list-item *ngFor="let sentMsg of userInfo.sent">
+            <a mat-line class="sentMessagesClass" [routerLink]="" (click)="toggleMsgNoti(sentMsg, false)">Tárgy: {{ sentMsg.header }}</a>
+            <div mat-line *ngIf="sentMsg.show" class="message_display">
+              <p mat-line><b>Címzett:</b> {{ sentMsg.receiver.username }}</p>
+              <p mat-line class="long_text"><b>Üzenet:</b> {{ sentMsg.body }}</p>
+              <p mat-line><b>Dátum:</b> {{ sentMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}</p>
+            </div>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div *ngIf="userInfo" class="section_cont comments_cont">
+        <h2>Hozzászólásaim</h2>
+        <a [routerLink]="" (click)="showMyComments()">Összes hozzászólásom megtekintése</a>
+        <mat-list *ngIf="currentUsersComments">
+          <mat-list-item *ngFor="let userComment of currentUsersComments">
+            <span mat-line class="text-muted"> Frissítve: {{ userComment.updated_at | date: 'yyyy-MM-dd HH:mm' }} </span>
+            <a mat-line [routerLink]="['/section', userComment.post.topic.section_id, userComment.post.topic_id, userComment.post_id, {comment: userComment.id}]">
+              {{ userComment.text }}
+            </a>
+            <span mat-line class="text-muted"> Poszt: {{ userComment.post.name }} </span>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </div>
   </div>
 </div>

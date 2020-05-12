@@ -4,73 +4,100 @@
       <h1> Profil megtekintés </h1>
     </div>
     <h2><b>{{ userInfo.username }}</b> profilja</h2>
-    <div *ngIf="userInfo" class="user_info_container row">
-      <div class="column">
-        <i *ngIf="userInfo.avatar === 'default'" class="fas fa-user fa-5x"></i>
-        <img *ngIf="userInfo.avatar !== 'default'" 
-              src="http://www.forumbackend.com/img/{{userInfo.avatar}}"
-              height="50" width="50"/>
-        <button type="button" class="btn btn-dark" (click)="sendMessageButton()">Üzenet küldése</button>
-        <div *ngIf="sendMessage" class="input-area">
-          <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-              <input type="text" formControlName="messageHeader" 
-              class="form-control" placeholder="Üzenet tárgya"
-              [ngClass]="{ 'is-invalid': submitted && f.messageHeader.errors }"/>
-              <div *ngIf="submitted && f.messageHeader.errors" class="invalid-feedback">
-                  <div *ngIf="f.messageHeader.errors.required">A fejléc kitöltése kötelező</div>
-              </div>
-              <textarea type="text" placeholder="Üzenet szövege" 
-                formControlName="messageBody" id="messageBody" rows="5" 
-                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.messageBody.errors }">
-              </textarea>
-              <div *ngIf="submitted && f.messageBody.errors" class="invalid-feedback">
-                <div *ngIf="f.messageBody.errors.required">Nem küldhetsz üres üzenetet</div>
-              </div>
-            </div>
-            <div class="form-group">
-              <button [disabled]="loading" class="btn btn-dark">
-                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                Üzenet elküldése
-              </button>
-            </div>
-          </form>
+    <div *ngIf="userInfo" class="user_info_container container">
+      <div class="row user_info_row">
+        <div class="col-2 my-auto text-center">
+          <i *ngIf="userInfo.avatar === 'default'" class="fas fa-user fa-3x"></i>
+          <img *ngIf="userInfo.avatar !== 'default'" 
+                src="http://www.forumbackend.com/img/{{userInfo.avatar}}"
+                height="50" width="50"/>
+          <p class="text_little">Utoljára aktív <br> {{ userInfo.last_visited | date: 'yyyy-MM-dd HH:mm' }}</p>
+        </div>
+        <div class="col my-auto">
+          <ul>
+            <li>
+              Név: {{ userInfo.username }}
+            </li>
+            <li>
+              Email: {{ userInfo.email }}
+            </li>
+          </ul>
+        </div>
+        <div class="col my-auto">
+          <ul>
+            <li>
+              Kommentek száma: {{ userInfo.comment_numbers }}
+            </li>
+            <li>
+              Státusz: {{ userInfo.status }}
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="column">
-        <ul>
-          <li>
-            Név: {{ userInfo.username }}
-          </li>
-          <li>
-            Bio: {{ userInfo.bio }}
-            <p *ngIf="userInfo.bio == null"> Még nem adott meg leírást.</p>
-          </li>
-          <li>
-            Email: {{ userInfo.email }}
-          </li>
-        </ul>
+      <div class="row users_comments">
+          <p>
+            <b>{{ userInfo.username }} </b> utolsó 10 hozzászólása:
+          </p>
+          <mat-list>
+            <mat-list-item *ngFor="let comment of userInfo.comments">
+              <div mat-line>
+                <a [routerLink]="['/section', comment.post.topic.section_id, comment.post.topic_id, comment.post_id, {comment: comment.id}]">
+                  {{ comment.text }}
+                </a>
+              </div>
+              <div mat-line>
+                <span class="text-muted text_little">
+                  {{ comment.post.name }}
+                </span>
+              </div>
+              <div mat-line> <span class="text-muted">Frissítve: {{ comment.updated_at | date: 'yyyy-MM-dd HH:mm' }}</span></div>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-list>
       </div>
-      <div class="column">
-        <ul>
-          <li>
-            Szavazatok: {{ userInfo.upvotes }}
-          </li>
-          <li>
-            Rank: {{ userInfo.rank }}
-          </li>
-          <li>
-            Státusz: {{ userInfo.status }}
-          </li>
-        </ul>
-      </div>
-      <div class="user_comments row">
-        {{ userInfo.username }} kommentjei:
-        <ul>
-          <li *ngFor="let comment of userInfo.comments">
-            {{ comment.text }} {{ comment.created_at | date: 'yyyy-MM-dd HH:mm' }}
-          </li>
-        </ul>
+      <div class="row">
+        <div class="col">
+          <div>
+            <span class="text-success" *ngIf="messageSent">
+              Üzenet elküldve!
+            </span>
+          </div>
+          <button *ngIf="isLoggedIn" type="button" class="btn btn-primary" (click)="sendMessageButton()">Üzenet</button>
+          <div *ngIf="tooManyCharHeader" class="text-danger">
+            <div>A tárgy maximum 70 karakter lehet!</div>
+          </div>
+          <div *ngIf="tooManyCharBody" class="text-danger">
+            <div>Az üzenet szövege maximum 300 karakter lehet!</div>
+          </div>
+          <div *ngIf="sendMessage" class="input-area">
+            <form [formGroup]="messageForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <input type="text" formControlName="messageHeader" 
+                class="form-control" placeholder="Üzenet tárgya"
+                [ngClass]="{ 'is-invalid': submitted && f.messageHeader.errors }"/>
+                <div *ngIf="submitted && f.messageHeader.errors" class="invalid-feedback">
+                    <div *ngIf="f.messageHeader.errors.required">A fejléc kitöltése kötelező</div>
+                </div>
+                <textarea type="text" placeholder="Üzenet szövege" 
+                  formControlName="messageBody" id="messageBody" rows="5" 
+                  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.messageBody.errors }">
+                </textarea>
+                <div *ngIf="submitted && f.messageBody.errors" class="invalid-feedback">
+                  <div *ngIf="f.messageBody.errors.required">Nem küldhetsz üres üzenetet</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary send_msg_button">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  Üzenet elküldése
+                </button>
+              </div>
+            </form>
+            <button type="button" (click)="cancelMessageForm()" class="btn btn-primary">
+              Mégse
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

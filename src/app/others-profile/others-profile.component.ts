@@ -21,6 +21,9 @@ export class OthersProfileComponent implements OnInit {
   submitted = false;
   loading = false;
   sendMessage = false;
+  messageSent = false;
+  tooManyCharBody = false;
+  tooManyCharHeader = false;
 
   constructor(
     private userService: OtherUsersService,
@@ -66,7 +69,12 @@ export class OthersProfileComponent implements OnInit {
   }
 
   sendMessageButton(){
-    this.sendMessage = true;
+    this.sendMessage = !this.sendMessage;
+    this.messageSent = false;
+  }
+
+  cancelMessageForm(){
+    this.sendMessage = false;
   }
 
   get f() { return this.messageForm.controls; }
@@ -74,13 +82,29 @@ export class OthersProfileComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     this.loading = true;
-    this.messageForm.controls['token'].setValue(this.tokenService.get())
-    this.messageForm.controls['receiver'].setValue(this.userId)
+    this.messageForm.controls["token"].setValue(this.tokenService.get());
+    this.messageForm.controls["receiver"].setValue(this.userId);
 
-    this.messageNotificationService.sendMessage(this.messageForm.value).subscribe(
-      data => console.log(data),
-      error => console.log(error)
-    );
+    if(this.messageForm.value["messageHeader"].length < 71){
+      this.tooManyCharHeader = false;
+      if(this.messageForm.value["messageBody"].length < 301){
+        this.tooManyCharBody = false;
+        this.messageNotificationService.sendMessage(this.messageForm.value).subscribe(
+          data => {
+            this.messageSent = true;
+            this.sendMessage = false;
+            this.messageForm.controls["messageHeader"].setValue("");
+            this.messageForm.controls["messageBody"].setValue("");
+            this.submitted = false;
+          },
+          error => console.log(error)
+        );
+      }else{
+        this.tooManyCharBody = true;
+      }
+    }else{
+      this.tooManyCharHeader = true;
+    }
     this.loading = false;
   }
 }

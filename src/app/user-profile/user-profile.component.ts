@@ -13,8 +13,11 @@ import { MessageNotificationService } from '../api/message-notification/message-
 export class UserProfileComponent implements OnInit {
 
   userInfo = null;
+  currentUsersComments = null;
   token;
   dataJson = null;
+  displayNotification = null;
+  allNotifShowing = false;
 
   selectedFile: File = null;
 
@@ -44,6 +47,17 @@ export class UserProfileComponent implements OnInit {
 
   handleResponse(data){
     this.userInfo = data;
+    this.displayNotification = this.userInfo["notifications"].slice(0, 5);
+  }
+
+  showMoreNotification(){
+    this.displayNotification = this.userInfo["notifications"];
+    this.allNotifShowing = true;
+  }
+
+  showLessNotification(){
+    this.displayNotification = this.displayNotification.slice(0, 5);
+    this.allNotifShowing = false;
   }
 
   handleError(error){
@@ -106,6 +120,15 @@ export class UserProfileComponent implements OnInit {
 
   handleAvatarError(error){
     this.errorMessage = error.error.error;
+  }
+
+  showMyComments(){
+    this.authService.getCurrentUsersComment(this.token).subscribe(
+      data => {
+        this.currentUsersComments = data;
+      },
+      error => this.handleError(error)
+    );
   }
 
 }

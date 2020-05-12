@@ -9,11 +9,57 @@
     margin-bottom: 5%;
 }
 
-.container{
+.newNotificationClass{
+    background-color: #f8b7b7;
+}
+
+.user_infos{
+    display: inline-block;
+}
+
+.section_cont{
+    padding: 4%;
+    margin-top: 2%;
     background-color: white;
+    box-shadow: 1px 1px 5px #888888;
+    border-radius: 15px;
+}
+
+.container{
+    background-color: #006079;
+    color: white;
+}
+
+.text_little{
+    font-size: 12px;
+}
+
+.upload_avatar{
+    margin-top: 2%;
+}
+
+.btn-primary{
+    margin-top: 2%;
+}
+
+.user_info_list{
+    font-size: 1.5vw;
+}
+
+.row{
     padding: 2%;
 }
 
-.newNotificationClass{
-    background-color: #fcaaaa;
+.message_display{
+    background-color: #f0f1f1;
+}
+
+::ng-deep .mat-list .mat-list-item .mat-line .long_text{
+    font-size: 20px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.mat-list{
+    margin-bottom: 4%;
 }

@@ -51,9 +51,11 @@
           <img *ngIf="comment.user.avatar !== 'default'" 
                 src="http://www.forumbackend.com/img/{{comment.user.avatar}}"
                 height="50" width="50"/>
-          <span class="text-muted">Kommentek</span>
-          <br>
-          {{ comment.user.comment_numbers }}
+          <div>
+            <span class="text-muted">Kommentek</span>
+            <br>
+            {{ comment.user.comment_numbers }}
+          </div>
         </div>
         <div class="col-7 comment_text my-auto">
           <span *ngIf="userId == comment.user_id" class="text-muted">Saját</span>

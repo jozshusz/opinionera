@@ -8,6 +8,7 @@ mat-list{
     box-shadow: 1px 1px 5px #888888;
     margin-bottom: 4%;
     background-color: white;
+    overflow: hidden;
 }
 
 .section{

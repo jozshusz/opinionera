@@ -16,6 +16,8 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   submitted = false;
   loading = false;
+  tooManyCharEmail = false;
+  tooManyCharUsername = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,12 +38,23 @@ export class SignupComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
-    this.loading = true;
-    this.authService.signUp(this.signupForm.value).subscribe(
-      data => this.handleResponse(data),
-      error => this.handleError(error)
-    );
-    this.loading = false;
+
+    if(this.signupForm.value["email"].length < 29){
+      this.tooManyCharEmail = false;
+      if(this.signupForm.value["username"].length < 29){
+        this.tooManyCharUsername = false;
+        this.loading = true;
+        this.authService.signUp(this.signupForm.value).subscribe(
+          data => this.handleResponse(data),
+          error => this.handleError(error)
+        );
+        this.loading = false;
+      }else{
+        this.tooManyCharUsername = true;
+      }
+    }else{
+      this.tooManyCharEmail = true;
+    }
   }
 
   get f() { return this.signupForm.controls; }
