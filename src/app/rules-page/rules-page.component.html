@@ -7,59 +7,73 @@
       <h2>
         I. Általános szabályok
       </h2>
-      <ol>
-        <li *ngFor="let rule of generalRulesList">
-          {{ rule.text }}
-        </li>
-      </ol>
+      <mat-list>
+        <mat-list-item *ngFor="let rule of generalRulesList; let i = index; let odd = odd"
+        [ngClass]="{ odd: odd }">
+          <div mat-line>
+            <p mat-line class="long_text">
+              {{ i + 1 }}. {{ rule.text }}
+            </p>
+          </div>
+        <mat-divider *ngIf="i != generalRulesList.length-1"></mat-divider>
+        </mat-list-item>
+      </mat-list> 
       <h2>
         II. Moderáció
       </h2>
-      <ol>
-        <li *ngFor="let rule of modRulesList">
-          {{ rule.text }}
-        </li>
-      </ol>
+      <mat-list>
+        <mat-list-item *ngFor="let rule of modRulesList; let i = index; let odd = odd"
+        [ngClass]="{ odd: odd }">
+          <div mat-line>
+            <p mat-line class="long_text">
+              {{ rule.text }}
+            </p>
+          </div>
+        </mat-list-item>
+      </mat-list>
     </div>
     <div *ngIf="option == 'faqs'">
       <h2>
         Gyakori kérdések és válaszok
-        <ol>
-          <li *ngFor="let faq of faqList">
-            Kérdés: {{ faq.question }}
-            <br>
-            Válasz: {{ faq.answer }}
-          </li>
-        </ol>
       </h2>
+      <div class="card" *ngFor="let faq of faqList">
+        <div class="card-header">
+          <b>Kérdés:</b> {{ faq.question }}
+        </div>
+        <div class="card-body">
+          <b>Válasz:</b> {{ faq.answer }}
+        </div>
+      </div>
     </div>
     <div *ngIf="option == 'contact'">
       <div class="contact_info text-center">
         <h1>
           Opinionera fórum
         </h1>
-        Szeretnél moderátornak jelentkezni?
-        <br>
-        Esetleg javaslatod lenne az oldal fejlesztésével kapcsolatban?
-        <br>
-        Vagy csak üzenni szeretnél az oldal fejlesztőjének?
-        <br>
-        Akkor a következő email címen tudsz elérni: <b>huszijozs[kukac]gmail.com</b>
-        <br>
-        <br>
-        <div class="about_me">
-          <h2>Rólam</h2>
-          Engem Józsefnek hívnak, 22 éves egyetemista vagyok. Programtervező informatikusnak
-          tanulok az ELTE Informatika Karon. Ez az oldal a szakdolgozatom része.
+        <div class="card">
+          <div class="card-body">
+            <p>Szeretnél moderátornak jelentkezni?</p>
+            <p>Esetleg javaslatod lenne az oldal fejlesztésével kapcsolatban?</p>
+            <p>Vagy csak üzenni szeretnél az oldal fejlesztőjének?</p>
+            <p>Akkor a következő email címen tudsz elérni: <b>huszijozs[kukac]gmail.com</b></p>
+          </div>
         </div>
-        <br>
-        <div class="about_site">
+        <div class="card card_class">
+          <h2>Rólam</h2>
+          <div class="card-body">
+            <p>Engem Józsefnek hívnak, 22 éves egyetemista vagyok. Programtervező informatikusnak
+              tanulok az ELTE Informatika Karon. Ez az oldal a szakdolgozatom része.</p>
+          </div>
+        </div>
+        <div class="card card_class">
           <h2>Az oldal</h2>
-          Célom egy olyan oldal kialakítása volt, ahol mindenféle téma, topik elérhető és bárki
-          kifejtheti véleményét, illetve kulturált módon vitázhat mással.
-          A fő motiváció a fórummal kapcsolatban az, hogy bonyolult koncepciókat/fogalmakat 
-          egyszerűen tálalva megvitassuk másokkal, illetve tanuljunk másoktól. 
-          Ezen kívül természetesen a mindennapi csevegésnek is meg van a helye.
+          <div class="card-body">
+            <p>Célom egy olyan oldal kialakítása volt, ahol mindenféle téma, topik elérhető és bárki
+              kifejtheti véleményét, illetve kulturált módon vitázhat mással.
+              A fő motiváció a fórummal kapcsolatban az, hogy bonyolult koncepciókat/fogalmakat 
+              egyszerűen tálalva megvitassuk másokkal, illetve tanuljunk másoktól. 
+              Ezen kívül természetesen a mindennapi csevegésnek is meg van a helye.</p>
+          </div>
         </div>
       </div>
     </div>

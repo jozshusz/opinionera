@@ -63,3 +63,11 @@
 .mat-list{
     margin-bottom: 4%;
 }
+
+ul{
+    list-style-type: circle;
+}
+
+li{
+    margin-bottom: 5%;
+}

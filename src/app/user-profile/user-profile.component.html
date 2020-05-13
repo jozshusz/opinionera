@@ -5,14 +5,14 @@
     </div>
     <h2 *ngIf="userInfo">Üdvözlünk <b>{{ userInfo.username }}</b>!</h2>
     <div *ngIf="userInfo" class="section_cont container">
-      <h2>Információk</h2>
+      <h1 class="text-center">Információk</h1>
       <div class="row">
-        <div class="col-7 user_info_container my-auto">
+        <div class="col-6 user_info_container my-auto">
           <div class="user_infos">
             <i *ngIf="userInfo.avatar === 'default'" class="fas fa-user fa-5x"></i>
             <img *ngIf="userInfo.avatar !== 'default'" 
                   src="http://www.forumbackend.com/img/{{userInfo.avatar}}"
-                  height="50" width="50"/>
+                  height="70" width="70"/>
             <div class="upload_avatar">
               <p class="text_little">Tölts fel egy avatart <br> (maximum 1MB)</p>
               <input #selectFileInput type="file" (change)="onFileSelected($event)">
@@ -27,18 +27,19 @@
         <div class="col my-auto user_info_list">
           <ul>
             <li>
-              Név: {{ userInfo.username }}
+              Felhasználónév: {{ userInfo.username }}
             </li>
             <li>
               Email: {{ userInfo.email }}
             </li>
-          </ul>
-          <ul>
             <li>
               Kommentek száma: {{ userInfo.comment_numbers }}
             </li>
             <li>
               Státusz: {{ userInfo.status }}
+            </li>
+            <li>
+              Regisztráció: {{ userInfo.created_at | date: 'yyyy-MM-dd HH:mm' }}
             </li>
           </ul>
         </div>

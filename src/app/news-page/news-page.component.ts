@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewsRulesService } from '../api/news-rules/news-rules.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TokenService } from '../api/token/token.service';
 import { CreateContentService } from '../api/create-content/create-content.service';
@@ -20,6 +20,7 @@ export class NewsPageComponent implements OnInit {
   newsForm: FormGroup;
   submitted = false;
   newNews = false;
+  adminOrMod = false;
 
   types = [
     {value: 'bejelentés', viewValue: 'Bejelentés'},
@@ -32,7 +33,8 @@ export class NewsPageComponent implements OnInit {
     private route: ActivatedRoute,
     private tokenService: TokenService,
     private createContentService: CreateContentService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -46,12 +48,17 @@ export class NewsPageComponent implements OnInit {
         this.initRepairNews();
       }
     });
+
     this.newsForm = this.formBuilder.group({
       postType: 'bejelentés',
       postTitle: ['', Validators.required],
       text: ['', Validators.required],
       token: null
     });
+
+    if(this.tokenService.getUserStatus() == "admin" || this.tokenService.getUserStatus() == "mod"){
+      this.adminOrMod = true;
+    }
   }
 
   initAllNews(){
@@ -84,7 +91,7 @@ export class NewsPageComponent implements OnInit {
   get f() { return this.newsForm.controls; }
 
   newNewsButton(){
-    this.newNews = true;
+    this.newNews = !this.newNews;
   }
 
   onSubmit(){
@@ -92,7 +99,20 @@ export class NewsPageComponent implements OnInit {
     this.newsForm.controls['token'].setValue(this.tokenService.get());
 
     this.createContentService.createNews(this.newsForm.value).subscribe(
-      data => console.log(data),
+      data => {
+        this.newNews = false;
+
+        this.newsForm.controls["postTitle"].setValue("");
+        this.newsForm.controls["text"].setValue("");
+
+        if(this.option != "all"){
+          this.router.navigateByUrl('/news/all(sidebar:news)');
+        }else{
+          this.newsList.unshift(data);
+          window.scrollTo(0, 0);
+        }
+        this.submitted = false;
+      },
       error => console.log(error)
     );
   }

@@ -24,6 +24,7 @@ mat-list{
     box-shadow: 1px 1px 5px #888888;
     background-color: white;
     border-radius: 15px;
+    overflow: hidden;
 }
 
 .mat-subheader{

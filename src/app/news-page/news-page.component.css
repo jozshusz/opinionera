@@ -13,6 +13,8 @@
 .card-header{
     font-size: 14px;
     display: inline-block;
+    background-color: #006079;
+    color: white;
 }
 
 .date{
@@ -30,4 +32,14 @@ p{
 
 .card{
     margin-bottom: 10%;
+    box-shadow: 1px 1px 5px #888888;
+    border: 0;
+}
+
+.btn-primary{
+    margin-bottom: 4%;
+}
+
+.form-control{
+    margin-top: 2%;
 }

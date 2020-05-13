@@ -8,3 +8,25 @@
     margin-left: 20%;
     margin-bottom: 5%;
 }
+
+::ng-deep .mat-list .mat-list-item .mat-line .long_text{
+    font-size: 14px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.mat-list{
+    background-color: white;
+    box-shadow: 1px 1px 5px #888888;
+    border-radius: 15px;
+    margin-bottom: 5%;
+    overflow: hidden;
+}
+
+.odd{
+    background-color: #f8f8f8;
+}
+
+.card_class{
+    margin-top: 2%;
+}

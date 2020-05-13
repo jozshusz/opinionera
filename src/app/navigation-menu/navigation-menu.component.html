@@ -30,7 +30,7 @@
           </a>
         </li>
         <li matRipple class="nav-item" [routerLinkActive]="['active']" id="profile_nav" *ngIf="loggedIn">
-          <a class="nav-link" [routerLink]="[{ outlets: { primary: ['profile'], sidebar: ['login'] } }]">
+          <a class="nav-link" [routerLink]="[{ outlets: { primary: ['profile'], sidebar: ['topics'] } }]">
             <div matBadge="1" matBadgePosition="before" matBadgeColor="accent" matBadgeSize="small" [matBadgeHidden]="hideNotification">
               Profil
             </div>

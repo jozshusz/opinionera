@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'rules', redirectTo: '/rules/all(sidebar:rules)', pathMatch: 'full'},
   { path: 'login', redirectTo: '/login(sidebar:login)', pathMatch: 'full'},
   { path: 'signup', redirectTo: '/signup(sidebar:login)', pathMatch: 'full'},
-  { path: 'profile', redirectTo: '/profile(sidebar:login)', pathMatch: 'full'},
+  { path: 'profile', redirectTo: '/profile(sidebar:topics)', pathMatch: 'full'},
   { path: 'profile/:userId', redirectTo: '/profile/:userId(sidebar:topics)', pathMatch: 'full'},
   { path: 'reqpwreset', redirectTo: '/reqpwreset(sidebar:login)', pathMatch: 'full'},
   //{ path: 'responsepwreset', redirectTo: '/responsepwreset(sidebar:login)', pathMatch: 'full'},
