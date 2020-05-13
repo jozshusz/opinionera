@@ -10,7 +10,7 @@
             <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors.required">Az email kitöltése kötelező</div>
             </div>
-            <span class="text-danger" *ngIf="errorMessage">{{ errorMessage.email }}</span>
+            <span class="text-danger" *ngIf="errorMessage">Az email már foglalt vagy nem létezik!</span>
             <div *ngIf="tooManyCharEmail" class="text-danger">
                 <div>Az email maximum 28 karakter hosszú lehet!</div>
             </div>

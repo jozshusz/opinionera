@@ -5,6 +5,13 @@
     </div>
     <mat-list>
       <div mat-subheader class="section">Komment találatok</div>
+      <div *ngIf="resultComments">
+        <mat-list-item *ngIf="resultComments.length == 0">
+          <div mat-line class="my-auto text-center">
+            <p>Nem találtunk a keresett feltételekhez kommentet.</p>
+          </div>
+        </mat-list-item>
+      </div>
       <mat-list-item *ngFor="let comment of resultComments; let i=index">
         <div mat-line class="container">
           <div class="row">
@@ -42,6 +49,13 @@
     </mat-list>
     <mat-list>
       <div mat-subheader class="section">Poszt találatok</div>
+      <div *ngIf="resultPosts">
+        <mat-list-item *ngIf="resultPosts.length == 0">
+          <div mat-line class="my-auto text-center">
+            <p>Nem találtunk a keresett feltételekhez posztot.</p>
+          </div>
+        </mat-list-item>
+      </div>
       <mat-list-item *ngFor="let post of resultPosts; let i=index">
         <div mat-line class="container">
           <div class="row">

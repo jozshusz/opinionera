@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { StatusService } from '../api/status/status.service';
 import { Router } from '@angular/router';
 import { TokenService } from '../api/token/token.service';
@@ -18,6 +18,8 @@ export class NavigationMenuComponent implements OnInit {
   searchForm: FormGroup;
   submitted = false;
 
+  @ViewChild("logoutButton") logoutButton: ElementRef<HTMLElement>;
+
   constructor(
     private statusService: StatusService,
     private router: Router,
@@ -34,6 +36,18 @@ export class NavigationMenuComponent implements OnInit {
     this.searchForm = this.formBuilder.group({
       searchInput: ['', Validators.required]
     });
+
+    // check if the user's token expired, then logout
+    // it is originally in seconds not miliseconds so * 1000 is needed
+    if(this.tokenService.get()){
+      let now = new Date();
+      let expDate = new Date(this.tokenService.payload(this.tokenService.get()).exp * 1000);
+      if(expDate < now){
+        this.pollingService.pollUnsubscribe();
+        this.statusService.changeAuthStatus(false);
+        this.tokenService.remove();
+      }
+    }
   }
 
   logout(event: MouseEvent){

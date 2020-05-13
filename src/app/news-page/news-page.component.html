@@ -3,21 +3,6 @@
     <div class="page_title">
       <h1> Hírek </h1>
     </div>
-    <div class="card" *ngFor="let post of newsList">
-      <div class="card-header">
-        {{ post.type }}
-        <div class="date">{{ post.created_at | date: 'yyyy-MM-dd HH:mm' }}</div>
-      </div>
-      <div class="card-body">
-        <h1 class="card-title">{{ post.title }}</h1>
-        <p class="card-text">
-          {{ post.text }}
-        </p>
-      </div>
-      <div class="card-footer text-muted">
-        {{ post.user.username }}
-      </div>
-    </div>
     <button *ngIf="adminOrMod" type="button" class="btn btn-primary" (click)="newNewsButton()">Új bejegyzés</button>
     <div class="new_post">
       <div *ngIf="newNews" class="input-area">
@@ -48,6 +33,21 @@
             <button class="btn btn-primary">Bejegyzés létrehozása</button>
           </div>
         </form>
+      </div>
+    </div>
+    <div class="card" *ngFor="let post of newsList">
+      <div class="card-header">
+        {{ post.type }}
+        <div class="date">{{ post.created_at | date: 'yyyy-MM-dd HH:mm' }}</div>
+      </div>
+      <div class="card-body">
+        <h1 class="card-title">{{ post.title }}</h1>
+        <p class="card-text">
+          {{ post.text }}
+        </p>
+      </div>
+      <div class="card-footer text-muted">
+        {{ post.user.username }}
       </div>
     </div>
   </div>

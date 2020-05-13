@@ -27,6 +27,12 @@
             <button class="btn btn-primary">A téma létrehozása</button>
           </div>
         </form>
+        <div *ngIf="tooManyCharTitle" class="text-danger">
+          <div>A cím maximum 35 karakter lehet!</div>
+        </div>
+        <div *ngIf="tooManyCharDescription" class="text-danger">
+          <div>A leírás maximum 110 karakter lehet!</div>
+        </div>
       </div>
     </div>
     <mat-list>

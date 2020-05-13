@@ -12,6 +12,7 @@ export class RequestPasswordResetComponent implements OnInit {
   public errorMessage;
   loading = false;
   submitted = false;
+  successEmailSent = false;
 
   public form: FormGroup;
 
@@ -38,7 +39,8 @@ export class RequestPasswordResetComponent implements OnInit {
   get f() { return this.form.controls; }
 
   handleResponse(res){
-    console.log(res);
+    this.errorMessage = null;
+    this.successEmailSent = true;
     this.form.value.email = null;
     this.loading = false;
   }
@@ -46,6 +48,7 @@ export class RequestPasswordResetComponent implements OnInit {
   // error handling for email format and password match
   handleError(error){
     this.errorMessage = error.error.error;
+    this.successEmailSent = false;
 
     this.loading = false;
   }

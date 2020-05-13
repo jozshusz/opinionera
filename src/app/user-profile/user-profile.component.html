@@ -48,6 +48,11 @@
       <div *ngIf="userInfo" class="section_cont notifications">
         <h2>Értesítések</h2>
         <mat-list>
+          <mat-list-item *ngIf="displayNotification && displayNotification.length == 0">
+            <div mat-line class="my-auto text-center">
+              <p>Még nem érkezett értesítés számodra.</p>
+            </div>
+          </mat-list-item>
           <mat-list-item *ngFor="let notification of displayNotification" [ngClass]="{'newNotificationClass': !notification.opened}">
               <a mat-line class="notificationsClass" [routerLink]="" (click)="toggleMsgNoti(notification, true)">
                 {{ notification.message }} - {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
@@ -60,7 +65,7 @@
               <mat-divider></mat-divider>
           </mat-list-item>
         </mat-list>
-        <a *ngIf="!allNotifShowing" [routerLink]="" (click)="showMoreNotification()">
+        <a *ngIf="!allNotifShowing && displayNotification.length>0" [routerLink]="" (click)="showMoreNotification()">
           Összes mutatása
         </a>
         <a *ngIf="allNotifShowing" [routerLink]="" (click)="showLessNotification()">
@@ -71,6 +76,11 @@
         <h2>Üzenetek</h2>
         <h3>Beérkezett üzenetek</h3>
         <mat-list>
+          <mat-list-item *ngIf="userInfo.received && userInfo.received.length == 0">
+            <div mat-line class="my-auto text-center">
+              <p>Még nem érkezett üzenet számodra.</p>
+            </div>
+          </mat-list-item>
           <mat-list-item  *ngFor="let receivedMsg of userInfo.received" [ngClass]="{'newNotificationClass': !receivedMsg.opened}">
             <a mat-line class="receivedMessagesClass" [routerLink]="" (click)="toggleMsgNoti(receivedMsg, true)">Tárgy: {{ receivedMsg.header }}</a>
             <div mat-line *ngIf="receivedMsg.show" class="message_display">
@@ -83,6 +93,11 @@
         </mat-list>
         <h3>Elküldött üzenetek</h3>
         <mat-list>
+          <mat-list-item *ngIf="userInfo.sent && userInfo.sent.length == 0">
+            <div mat-line class="my-auto text-center">
+              <p>Még nem küldtél senkinek üzenetet.</p>
+            </div>
+          </mat-list-item>
           <mat-list-item *ngFor="let sentMsg of userInfo.sent">
             <a mat-line class="sentMessagesClass" [routerLink]="" (click)="toggleMsgNoti(sentMsg, false)">Tárgy: {{ sentMsg.header }}</a>
             <div mat-line *ngIf="sentMsg.show" class="message_display">
@@ -98,6 +113,11 @@
         <h2>Hozzászólásaim</h2>
         <a [routerLink]="" (click)="showMyComments()">Összes hozzászólásom megtekintése</a>
         <mat-list *ngIf="currentUsersComments">
+          <mat-list-item *ngIf="currentUsersComments && currentUsersComments.length == 0">
+            <div mat-line class="my-auto text-center">
+              <p>Nincs egyetlen hozzászólásod sem.</p>
+            </div>
+          </mat-list-item>
           <mat-list-item *ngFor="let userComment of currentUsersComments">
             <span mat-line class="text-muted"> Frissítve: {{ userComment.updated_at | date: 'yyyy-MM-dd HH:mm' }} </span>
             <a mat-line [routerLink]="['/section', userComment.post.topic.section_id, userComment.post.topic_id, userComment.post_id, {comment: userComment.id}]">

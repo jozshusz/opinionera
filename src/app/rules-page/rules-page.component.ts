@@ -30,6 +30,9 @@ export class RulesPageComponent implements OnInit {
         this.initFaqs();
       }
     });
+
+    // need scroll in case user navigates from footer
+    window.scrollTo(0, 0);
   }
 
   initRules(){

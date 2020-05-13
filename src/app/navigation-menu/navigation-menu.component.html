@@ -37,7 +37,7 @@
           </a>
         </li>
         <li matRipple class="nav-item" [routerLinkActive]="['active']" id="logout_nav" *ngIf="loggedIn">
-          <a class="nav-link" href="#" (click)="logout($event)">Kijelentkezés</a>
+          <a class="nav-link" href="#" (click)="logout($event)" #logoutButton>Kijelentkezés</a>
         </li>
       </ul>
     </div>

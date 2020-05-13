@@ -7,9 +7,11 @@
       {{ currentPost.description }}
     </div>
     <div *ngIf="isLoggedIn" class="new_comment">
-      <span class="text-success" *ngIf="currentPost.fresh">
-        Sikeres téma létrehozás! Írj egy kommentet, hogy elkezdődjön a beszélgetés!
-      </span>
+      <div *ngIf="currentPost.fresh">
+        <span class="text-success">
+          Sikeres téma létrehozás! Írj egy kommentet, hogy elkezdődjön a beszélgetés!
+        </span>
+      </div>
       <button type="button" class="btn btn-primary" (click)="newCommentButton()">Új hozzászólás</button>
       <button type="button" class="btn btn-primary" (click)="startPdfGenerate()">Pdf generálás</button>
       <button type="button" class="btn btn-primary" *ngIf="letSelection" (click)="finishPdfGenerate()">Pdf letöltése</button>
@@ -37,6 +39,9 @@
       </div>
     </div>
     <div class="comments">
+      <div *ngIf="comments && comments.length == 0" class="comment row">
+        <p>Még senki sem szólt hozzá a témához. Légy te az első kommentelő!</p>
+      </div>
       <div *ngFor="let comment of comments" class="comment row" id="{{ comment.id }}">
         <mat-checkbox (change)="selectComment(comment.id, comment.text, $event.checked)" 
         *ngIf="letSelection" class="example-margin"></mat-checkbox>

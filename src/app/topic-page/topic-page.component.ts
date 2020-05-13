@@ -23,6 +23,8 @@ export class TopicPageComponent implements OnInit {
   postForm: FormGroup;
   submitted = false;
   loading = false;
+  tooManyCharTitle = false;
+  tooManyCharDescription = false;
 
   constructor(
     private postsService: GetAllPostsService,
@@ -63,13 +65,25 @@ export class TopicPageComponent implements OnInit {
 
   onSubmit(){
     this.submitted = true;
-    this.postForm.controls['token'].setValue(this.tokenService.get());
-    this.postForm.controls['topicId'].setValue(this.topicId);
+    this.postForm.controls["token"].setValue(this.tokenService.get());
+    this.postForm.controls["topicId"].setValue(this.topicId);
 
-    this.createContentService.createPost(this.postForm.value).subscribe(
-      data => this.handleResponse(data),
-      error => console.log(error)
-    );
+    if(this.postForm.value["postTitle"].length < 36){
+      this.tooManyCharTitle = false;
+      if(this.postForm.value["postDescription"].length < 111){
+        this.tooManyCharDescription = false;
+
+        this.createContentService.createPost(this.postForm.value).subscribe(
+          data => this.handleResponse(data),
+          error => console.log(error)
+        );
+      }else{
+        this.tooManyCharDescription = true;
+      }
+    }else{
+      this.tooManyCharTitle = true;
+    }
+
   }
 
   handleResponse(data){
