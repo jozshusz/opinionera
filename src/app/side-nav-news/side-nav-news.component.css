@@ -11,3 +11,9 @@ mat-divider {
     font-weight: bold;
     border-left: 2px solid black;
 }
+
+@media screen and (max-width: 1040px) {
+    a {
+      font-size: 12px;
+    }
+}

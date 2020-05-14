@@ -30,3 +30,9 @@
 .card_class{
     margin-top: 2%;
 }
+
+@media screen and (max-width: 1040px) {
+    .rules_container {
+        margin-left: 37%;
+    }
+}

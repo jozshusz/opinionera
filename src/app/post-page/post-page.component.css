@@ -55,3 +55,9 @@
     white-space: pre-line; 
     word-wrap: break-word;
 }
+
+@media screen and (max-width: 1040px) {
+    .post_container {
+        margin-left: 37%;
+    }
+}

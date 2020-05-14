@@ -55,3 +55,9 @@ li{
 .send_msg_button{
     margin-bottom: 0;
 }
+
+@media screen and (max-width: 1040px) {
+    .others_profile_container {
+        margin-left: 37%;
+    }
+}

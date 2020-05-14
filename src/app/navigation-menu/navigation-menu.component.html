@@ -1,9 +1,12 @@
 <!-- bootstrap navigation menu -->
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark" id="main_navbar">
   <a class="navbar-brand" [routerLink]="[{ outlets: { primary: ['sections'], sidebar: ['topics'] } }]">Opinionera</a>
-  <div class="collapse navbar-collapse" id="navbarNav"> <!-- collapsing when the device's width is too small -->
-    <div class="collapse navbar-collapse justify-content-between">
-      <ul class="navbar-nav">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent"> <!-- collapsing when the device's width is too small -->
+    <!--<div class="collapse navbar-collapse justify-content-between">-->
+      <ul class="navbar-nav mr-auto">
         <li matRipple class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="[{ outlets: { primary: ['sections'], sidebar: ['topics'] } }]">Témák</a>
         </li>
@@ -40,6 +43,6 @@
           <a class="nav-link" href="#" (click)="logout($event)" #logoutButton>Kijelentkezés</a>
         </li>
       </ul>
-    </div>
+    <!--</div>-->
   </div>
 </nav>

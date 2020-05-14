@@ -71,3 +71,9 @@ ul{
 li{
     margin-bottom: 5%;
 }
+
+@media screen and (max-width: 1040px) {
+    .profile_container {
+        margin-left: 37%;
+    }
+}

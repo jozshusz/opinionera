@@ -18,3 +18,9 @@
     text-decoration: none;
     margin-top: 2%;
 }
+
+@media screen and (max-width: 1040px) {
+    .login_container {
+        margin-left: 37%;
+    }
+}

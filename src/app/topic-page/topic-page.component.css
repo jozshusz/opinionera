@@ -55,3 +55,15 @@ mat-list{
 .text-muted{
     font-size: 10px;
 }
+
+@media screen and (max-width: 1040px) {
+    .topic_container {
+        margin-left: 37%;
+    }
+}
+
+@media screen and (max-width: 1040px) {
+    .mat-subheader {
+      font-size: 12px;
+    }
+}

@@ -8,3 +8,9 @@
     margin-bottom: 15%;
    /* background-color: #6E807A;*/
 }
+
+@media screen and (max-width: 1040px) {
+    .signup_container {
+        margin-left: 37%;
+    }
+}
