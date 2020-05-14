@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 export class TokenService {
 
   private iss = {
-    login: 'http://opinionerabackend.herokuapp.com/api/login',
-    signup: 'http://opinionerabackend.herokuapp.com/api/signup'
+    login: 'https://opinionerabackend.herokuapp.com/api/login',
+    signup: 'https://opinionerabackend.herokuapp.com/api/signup'
   };
 
   constructor() { }
