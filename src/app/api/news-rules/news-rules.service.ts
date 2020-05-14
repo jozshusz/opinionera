@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class NewsRulesService {
 
-  private baseUrl = 'https://opinionerabackend.herokuapp.com/api';
+  private baseUrl = 'https://opinionerabackend.herokuapp.com/api/';
 
   constructor(private http: HttpClient) { }
 

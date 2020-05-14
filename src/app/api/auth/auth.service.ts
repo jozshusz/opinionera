@@ -8,7 +8,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl = 'https://opinionerabackend.herokuapp.com/api';
+  private baseUrl = 'https://opinionerabackend.herokuapp.com/api/';
 
   signUp(data) {
     return this.http.post(this.baseUrl + 'signup', data);
