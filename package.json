@@ -33,7 +33,7 @@
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "html2canvas": "^1.0.0-alpha.12",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jspdf": "^1.5.3",
     "path": "^0.12.7",
     "rxjs": "~6.5.4",
