@@ -69,7 +69,7 @@
           </p>
           <div *ngIf="comment.canEditComment">
             <textarea type="text" rows="5" class="form-control" [(ngModel)]="newText">{{ comment.text }}</textarea>
-            <a [routerLink]="" (click)="saveEdit(comment.id)">Mentés</a>
+            <a [routerLink]="" (click)="saveEdit(comment.id)">Mentés </a>
             <a [routerLink]="" (click)="cancelEdit(comment.id)">Mégse</a>
           </div>
           <div *ngIf="tooManyEdit" class="text-danger">
@@ -82,7 +82,7 @@
         </div>
         <div class="col-2 comment_upvotes my-auto text-center">
           <div class="upvote_container">
-            <a *ngIf="userId != comment.user_id && !comment.moderated" [routerLink]="" (click)="sendLike(comment.id)">
+            <a *ngIf="userId != comment.user_id && !comment.moderated && isLoggedIn" [routerLink]="" (click)="sendLike(comment.id)">
               <!--<p *ngIf="!comment.upvoted">Tetszik</p>
               <p *ngIf="comment.upvoted">Nem tetszik</p>-->
               <i *ngIf="!comment.upvoted" class="far fa-thumbs-up fa-1x"></i>
@@ -91,7 +91,7 @@
             {{ comment.upvotes_count }}
           </div>
           <br>
-          <a [routerLink]="" (click)="reportComment(comment.id)" *ngIf="userId != comment.user_id && !comment.reported">
+          <a [routerLink]="" (click)="reportComment(comment.id)" *ngIf="userId != comment.user_id && !comment.reported && isLoggedIn">
             Jelentés
           </a>
           <p *ngIf="comment.reported">Jelentve!</p>

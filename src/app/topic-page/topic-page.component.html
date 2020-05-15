@@ -5,7 +5,7 @@
       <h2 class="sub_title"> {{ currentTopic.description }} </h2>
     </div>
     <div *ngIf="isLoggedIn" class="new_post">
-      <button type="button" class="btn btn-primary" (click)="newPostButton()">Téma nyitás</button>
+      <button type="button" class="btn btn-primary" (click)="newPostButton()">Poszt nyitás</button>
       <div *ngIf="newPost" class="input-area">
         <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="form-group">
-            <button class="btn btn-primary">A téma létrehozása</button>
+            <button class="btn btn-primary">A poszt létrehozása</button>
           </div>
         </form>
         <div *ngIf="tooManyCharTitle" class="text-danger">
