@@ -104,7 +104,7 @@ export class UserProfileComponent implements OnInit {
     formData.append('image', this.selectedFile);
     formData.append('token', this.token['token']);
 
-    this.httpService.post('http://www.forumbackend.com/api/avatarUpload', formData, {
+    this.httpService.post('https://opinionerabackend.herokuapp.com/api/avatarUpload', formData, {
       headers: headers
     }).subscribe(
       data => this.handleAvatarResponse(data),

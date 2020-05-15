@@ -8,7 +8,7 @@ export class SendCommentService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl = 'http://www.forumbackend.com/api/';
+  private baseUrl = 'https://opinionerabackend.herokuapp.com/api/';
 
   sendComment(data) {
     return this.http.post(this.baseUrl + 'sendComment', data);
