@@ -9,7 +9,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class GetAllPostsService {
 
   postsList: any;
-  private baseUrl = 'https://opinionerabackend.herokuapp.com/api/';
+  private baseUrl = 'http://www.forumbackend.com/api/';
 
   constructor(private http: HttpClient) { }
 
