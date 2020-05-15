@@ -27,6 +27,7 @@ export class PostPageComponent implements OnInit {
   submitted = false;
   tooManyChar = false;
   tooManyEdit = false;
+  modTryDeleteAdmin = false;
 
   currentPost;
   topicId;
@@ -283,7 +284,9 @@ export class PostPageComponent implements OnInit {
         this.comments.filter(x => x.id == commentId)[0]['moderated'] = true;
         this.comments.filter(x => x.id == commentId)[0]['text'] = data['text'];
       },
-      error => console.log(error)
+      error => {
+        this.comments.filter(x => x.id == commentId)[0]['modTryDeleteAdmin'] = true;
+      }
     );
   }
 
@@ -324,6 +327,14 @@ export class PostPageComponent implements OnInit {
         document.getElementById("closeOwnDelete-" + commentId).click();
         // remove comment from frontend as well
         this.comments = this.comments.filter(({ id }) => id !== commentId); 
+
+        if(this.comments.length < 1){
+          if(this.paginatorData["next_page_url"]){
+            this.nextPage();
+          }else if(this.paginatorData["prev_page_url"]){
+            this.prevPage();
+          }
+        }
       },
       error => console.log(error)
     );

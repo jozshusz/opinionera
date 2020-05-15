@@ -124,6 +124,9 @@
               </div>
             </div>
           </div>
+          <div *ngIf="comment.modTryDeleteAdmin" class="text-danger admin_comment">
+            <div>Moderátor nem törölheti az admin hozzászólását</div>
+          </div>
         </div>
         <div *ngIf="adminOrMod">
           <!-- Button trigger modal -->

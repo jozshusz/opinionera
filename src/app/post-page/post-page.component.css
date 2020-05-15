@@ -61,3 +61,8 @@
         margin-left: 37%;
     }
 }
+
+.admin_comment{
+    font-size: 10px;
+    display: inline-block;
+}
