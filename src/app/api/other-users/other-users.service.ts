@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class OtherUsersService {
 
-  private baseUrl = 'https://opinionerabackend.herokuapp.com/api/';
+  private baseUrl = 'http://www.forumbackend.com/api/';
 
   constructor(
     private http: HttpClient
