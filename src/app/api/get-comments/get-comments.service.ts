@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class GetCommentsService {
 
   postsList: any;
-  private baseUrl = "http://www.forumbackend.com/api/";
+  private baseUrl = "https://mememarketing.io/api/";
 
   constructor(private http: HttpClient) { }
 

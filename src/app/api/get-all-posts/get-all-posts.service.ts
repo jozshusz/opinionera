@@ -9,7 +9,7 @@ import { catchError, retry } from 'rxjs/operators';
 export class GetAllPostsService {
 
   postsList: any;
-  private baseUrl = 'http://www.forumbackend.com/api/';
+  private baseUrl = 'https://mememarketing.io/api/';
 
   constructor(private http: HttpClient) { }
 

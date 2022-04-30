@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 export class TokenService {
 
   private iss = {
-    login: 'http://www.forumbackend.com/api/login',
-    signup: 'http://www.forumbackend.com/api/signup'
+    login: 'https://mememarketing.io/api/login',
+    signup: 'https://mememarketing.io/api/signup'
   };
 
   constructor() { }

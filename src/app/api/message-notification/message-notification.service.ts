@@ -8,7 +8,7 @@ export class MessageNotificationService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl = 'http://www.forumbackend.com/api/';
+  private baseUrl = 'https://mememarketing.io/api/';
 
   sendMessage(data) {
     return this.http.post(this.baseUrl + 'sendMessage', data);

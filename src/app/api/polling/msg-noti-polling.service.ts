@@ -15,7 +15,7 @@ export class MsgNotiPollingService {
   isLoggedIn = false;
   newMsgNoti = new BehaviorSubject<boolean>(false);
 
-  private baseUrl = 'http://www.forumbackend.com/api/';
+  private baseUrl = 'https://mememarketing.io/api/';
 
   constructor(
     private http: HttpClient,
