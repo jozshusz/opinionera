@@ -31,7 +31,7 @@
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@ng-bootstrap/ng-bootstrap": "^6.0.2",
     "bootstrap": "^4.4.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "html2canvas": "^1.0.0-alpha.12",
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
